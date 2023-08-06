@@ -5,15 +5,13 @@ class Window:
     def __init__(self) -> None:
         
         # Attributes
-        self.__screen = [self.__id.winfo_screenwidth(), self.__id.winfo_screenheight()]
         self.__id = Tk()
         self.__title = "Window"
         self.__size = [800, 600]
+        self.__screen = [self.__id.winfo_screenwidth(), self.__id.winfo_screenheight()]
         self.__position = [(self.__screen[0] / 2) - (self.__size[0] / 2), (self.__screen[1] / 2) - (self.__size[1] / 2)]
 
-    def GetScreen(self):
-        """ Gets the screen's size in pixels """
-        return self.__screen
+    # === GET methods ===
 
     def GetId(self):
         """ Gets the window's id """
@@ -26,6 +24,30 @@ class Window:
     def GetSize(self):
         """ Gets the window's size """
         return self.__size
+
+    def GetScreen(self):
+        """ Gets the screen's size in pixels """
+        return self.__screen
+
+    def GetPosition(self):
+        """ Gets the window's position in pixels """
+        return self.__position
+
+    # === SET methods ===
+
+    def SetTitle(self, title):
+        """ Sets the window's title """
+        self.__title = title
+
+    def SetSize(self, width, height):
+        """ Sets the window's size """
+        self.__size = [width, height]
+
+    def SetPosition(self, width, height):
+        """ Sets the window's position """
+        self.__position = [width, height]
+
+    # === MAIN methods ===
 
     def Run(self):
         """ Creates and runs the window """
