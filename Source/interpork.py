@@ -19,7 +19,7 @@ class Side():
     RIGHT = "right"
     LEFT = "left"
 
-class Window:
+class Window():
 
     def __init__(self) -> None:
 
