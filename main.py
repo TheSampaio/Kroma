@@ -1,8 +1,9 @@
-from interpork import *
+from Source.interpork import *
 
 if __name__ == "__main__":
 
     Wnd_Window = Window()
+    Wnd_Window.SetIcon("Data/Icon/icon-group-retiro.ico")
     Wnd_Window.SetTitle("Login")
     Wnd_Window.SetSize(400, 300)
 

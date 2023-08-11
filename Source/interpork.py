@@ -25,6 +25,7 @@ class Window:
 
         # === Attributes ===
         self.__id = tkinter.Tk()
+        self.__icon = None
         self.__title = "Window"
         self.__size = [800, 600]
         self.__screen = [self.__id.winfo_screenwidth(), self.__id.winfo_screenheight()]
@@ -36,6 +37,7 @@ class Window:
         """ Creates and runs the window. """
         self.__id.title(self.__title)
         self.__id.geometry(f"{self.__size[0]}x{self.__size[1]}+{int(self.__position[0])}+{int(self.__position[1])}")
+        self.__id.iconbitmap(self.__icon)
         
         # Runs the window
         self.__id.mainloop()
@@ -67,6 +69,10 @@ class Window:
         return self.__position
 
     # === SET methods ===
+
+    def SetIcon(self, icon):
+        """ Sets the window's icon. """
+        self.__icon = icon
 
     def SetTitle(self, title):
         """ Sets the window's title. """

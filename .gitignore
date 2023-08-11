@@ -2,6 +2,9 @@
 .vs/
 .vscode/
 __pycache__/
+build/
+dist/
 
 # Files
 *.user
+*.spec
