@@ -278,8 +278,8 @@ class TextBox(Widget):
     # === MAIN methods ===
 
     def Create(self):
-        self._id = tkinter.Text(self._root.GetId() if (self._root != None) else self._root)
-        self._id.config(width=self._size[0], height=self._size[1])
+        self._id = tkinter.Entry(self._root.GetId() if (self._root != None) else self._root)
+        self._id.config(width=self._size[0])
 
         # Choose between "pack" and "place"
         if (self._anchor != Anchor.CENTER):

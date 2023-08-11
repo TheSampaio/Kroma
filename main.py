@@ -16,7 +16,7 @@ if __name__ == "__main__":
     Txt_User = TextBox()
     Txt_User.SetAnchor(Anchor.CENTER)
     Txt_User.SetPosition(0, -60)
-    Txt_User.SetSize(24, 1)
+    Txt_User.SetSize(32, 1)
     Txt_User.Create()
 
     Lbl_Password = Label()
@@ -28,7 +28,7 @@ if __name__ == "__main__":
     Txt_Password = TextBox()
     Txt_Password.SetAnchor(Anchor.CENTER)
     Txt_Password.SetPosition(0, -15)
-    Txt_Password.SetSize(24, 1)
+    Txt_Password.SetSize(32, 1)
     Txt_Password.Create()
 
     Btn_Login = Button()
