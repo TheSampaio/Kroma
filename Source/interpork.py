@@ -98,6 +98,8 @@ class Widget():
         self._root = None
 
         # • Appearance
+        self._color = "black"
+        self._backgroundColor = "white"
 
         # • Behavior
         self._enabled = True
@@ -121,6 +123,17 @@ class Widget():
     def GetRoot(self):
         """ Gets the widget's root. """
         return self._root
+    
+    # • Appearance
+    def GetColor(self):
+        return self._color
+    
+    def GetBackgroundColor(self):
+        return self._backgroundColor
+
+    # • Behavior
+    def GetFocus(self):
+        return self._focus
     
     # • Layout
     def GetAnchor(self):
@@ -149,6 +162,13 @@ class Widget():
     def SetRoot(self, root):
         """ Sets the widget's root. """
         self._root = root
+
+    # • Appearance
+    def SetColor(self, color: str):
+        self._color = color
+    
+    def SetBackgroundColor(self, backgroundColor: str):
+        self._backgroundColor = backgroundColor
 
     # • Behavior
     def SetFocus(self, enable: bool):
@@ -223,7 +243,7 @@ class Button(Widget):
 
     def Create(self):
         self._id = tkinter.Button(self._root.GetId() if (self._root != None) else self._root, text=self.__text, command=self.__event)
-        self._id.config(width=self._size[0], height=self._size[1])
+        self._id.config(width=self._size[0], height=self._size[1], fg=self._color, bg=self._backgroundColor, border=0)
 
         # Set button's focus
         if (self._focus):
@@ -254,12 +274,13 @@ class Label(Widget):
         # Attributes
         self.__text = "Label"
         self._size = [0, 0]
+        self._backgroundColor = None
 
     # === MAIN methods ===
 
     def Create(self):
         self._id = tkinter.Label(self._root.GetId() if (self._root != None) else self._root, text=self.__text)
-        self._id.config(width=self._size[0], height=self._size[1])
+        self._id.config(width=self._size[0], height=self._size[1], fg=self._color, bg=self._backgroundColor)
 
          # Set button's focus
         if (self._focus):
@@ -294,7 +315,7 @@ class TextBox(Widget):
     def Create(self):
         """ Creates the text box. """
         self._id = tkinter.Entry(self._root.GetId() if (self._root != None) else self._root)
-        self._id.config(width=self._size[0])
+        self._id.config(width=self._size[0], fg=self._color, bg=self._backgroundColor, border=0)
 
          # Set button's focus
         if (self._focus):

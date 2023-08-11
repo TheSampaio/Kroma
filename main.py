@@ -36,6 +36,8 @@ if __name__ == "__main__":
     Btn_Login.SetAnchor(Anchor.CENTER)
     Btn_Login.SetText("Login")
     Btn_Login.SetPosition(-50, 22)
+    Btn_Login.SetColor("white")
+    Btn_Login.SetBackgroundColor("royalblue")
     Btn_Login.Create()
 
     Btn_Close = Button()
@@ -43,11 +45,14 @@ if __name__ == "__main__":
     Btn_Close.SetText("Close")
     Btn_Close.SetPosition(50, 22)
     Btn_Close.SetEvent(Wnd_Window.Close)
+    Btn_Close.SetColor("white")
+    Btn_Close.SetBackgroundColor("royalblue")
     Btn_Close.Create()
 
     Lbl_Footer = Label()
     Lbl_Footer.SetAnchor(Anchor.BOTTOM_RIGHT)
     Lbl_Footer.SetText("Interpork 0.1.0 Copyright © 2023 Grupo Retiro")
+    Lbl_Footer.SetColor("gray")
     Lbl_Footer.Create()
 
     Wnd_Window.Create()
