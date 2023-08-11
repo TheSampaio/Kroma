@@ -17,6 +17,7 @@ if __name__ == "__main__":
     Txt_User.SetAnchor(Anchor.CENTER)
     Txt_User.SetPosition(0, -60)
     Txt_User.SetSize(32, 1)
+    Txt_User.SetFocus(True)
     Txt_User.Create()
 
     Lbl_Password = Label()

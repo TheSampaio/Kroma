@@ -102,6 +102,7 @@ class Widget():
         # • Behavior
         self._enabled = True
         self._visible = True
+        self._focus = False
 
         # • Layout
         self._anchor = Anchor.TOP_LEFT
@@ -149,8 +150,13 @@ class Widget():
         """ Sets the widget's root. """
         self._root = root
 
+    # • Behavior
+    def SetFocus(self, enable: bool):
+        """ Focus the widget. """
+        self._focus = enable
+
     # • Layout
-    def SetAnchor(self, anchor):
+    def SetAnchor(self, anchor: Anchor):
         """ Sets the widget's anchor. """
         match anchor:
             case Anchor.CENTER:
@@ -188,19 +194,19 @@ class Widget():
                 self._anchor = anchor
                 self._side = Side.LEFT
 
-    def SetPosition(self, x, y):
+    def SetPosition(self, x: int, y: int):
         """ Sets the widget's position in pixels. """
         self._position = [x, y]
 
-    def SetMargin(self, x, y):
+    def SetMargin(self, x: int, y: int):
         """ Sets the widget's anchor. """
         self._margin = [x, y]
 
-    def SetSide(self, side):
+    def SetSide(self, side: Side):
         """ Sets the widget's side of the root. """
         self._side = side
 
-    def SetSize(self, width, height):
+    def SetSize(self, width: int, height: int):
         """ Sets the widget's size in pixels. """
         self._size = [width, height]
 
@@ -219,6 +225,10 @@ class Button(Widget):
         self._id = tkinter.Button(self._root.GetId() if (self._root != None) else self._root, text=self.__text, command=self.__event)
         self._id.config(width=self._size[0], height=self._size[1])
 
+        # Set button's focus
+        if (self._focus):
+            self._id.focus()
+
         # Choose between "pack" and "place"
         if (self._anchor != Anchor.CENTER):
             self._id.pack(anchor=self._anchor, side=self._side, padx=self._margin[0], pady=self._margin[1])
@@ -232,7 +242,7 @@ class Button(Widget):
         """ Sets the button's event. """
         self.__event = event
 
-    def SetText(self, text):
+    def SetText(self, text: str):
         """ Sets the button's text. """
         self.__text = text
 
@@ -251,6 +261,10 @@ class Label(Widget):
         self._id = tkinter.Label(self._root.GetId() if (self._root != None) else self._root, text=self.__text)
         self._id.config(width=self._size[0], height=self._size[1])
 
+         # Set button's focus
+        if (self._focus):
+            self._id.focus()
+
         # Choose between "pack" and "place"
         if (self._anchor != Anchor.CENTER):
             self._id.pack(anchor=self._anchor, side=self._side, padx=self._margin[0], pady=self._margin[1])
@@ -266,7 +280,7 @@ class Label(Widget):
     
     # === SET methods ===
 
-    def SetText(self, text):
+    def SetText(self, text: str):
         """ Sets the label's text. """
         self.__text = text
 
@@ -278,8 +292,38 @@ class TextBox(Widget):
     # === MAIN methods ===
 
     def Create(self):
+        """ Creates the text box. """
         self._id = tkinter.Entry(self._root.GetId() if (self._root != None) else self._root)
         self._id.config(width=self._size[0])
+
+         # Set button's focus
+        if (self._focus):
+            self._id.focus()
+
+        # Choose between "pack" and "place"
+        if (self._anchor != Anchor.CENTER):
+            self._id.pack(anchor=self._anchor, side=self._side, padx=self._margin[0], pady=self._margin[1])
+
+        else:
+            self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=0.5, rely=0.5)
+
+class RichTextBox(Widget):
+    
+    def __init__(self) -> None:
+        super().__init__()
+
+        # Attributes
+        self._size = [12, 12]
+
+    # === MAIN methods ===
+
+    def Create(self):
+        self._id = tkinter.Text(self._root.GetId() if (self._root != None) else self._root)
+        self._id.config(width=self._size[0], height=self._size[1])
+
+         # Set button's focus
+        if (self._focus):
+            self._id.focus()
 
         # Choose between "pack" and "place"
         if (self._anchor != Anchor.CENTER):
