@@ -213,6 +213,7 @@ class Button(Widget):
         self._id = tkinter.Button(self._root.GetId() if (self._root != None) else self._root, text=self.__text, command=self.__event)
         self._id.config(width=self._size[0], height=self._size[1])
 
+        # Choose between "pack" and "place"
         if (self._anchor != Anchor.CENTER):
             self._id.pack(anchor=self._anchor, side=self._side, padx=self._margin[0], pady=self._margin[1])
 
@@ -228,3 +229,55 @@ class Button(Widget):
     def SetText(self, text):
         """ Sets the button's text. """
         self.__text = text
+
+class Label(Widget):
+    
+    def __init__(self) -> None:
+        super().__init__()
+
+        # Attributes
+        self.__text = "Label"
+        self._size = [0, 0]
+
+    # === MAIN methods ===
+
+    def Create(self):
+        self._id = tkinter.Label(self._root.GetId() if (self._root != None) else self._root, text=self.__text)
+        self._id.config(width=self._size[0], height=self._size[1])
+
+        # Choose between "pack" and "place"
+        if (self._anchor != Anchor.CENTER):
+            self._id.pack(anchor=self._anchor, side=self._side, padx=self._margin[0], pady=self._margin[1])
+
+        else:
+            self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=0.5, rely=0.5)
+
+    # === GET methods ===
+
+    def GetText(self):
+        """ Sets the label's text. """
+        return self.__text
+    
+    # === SET methods ===
+
+    def SetText(self, text):
+        """ Sets the label's text. """
+        self.__text = text
+
+class TextBox(Widget):
+    
+    def __init__(self) -> None:
+        super().__init__()
+
+    # === MAIN methods ===
+
+    def Create(self):
+        self._id = tkinter.Text(self._root.GetId() if (self._root != None) else self._root)
+        self._id.config(width=self._size[0], height=self._size[1])
+
+        # Choose between "pack" and "place"
+        if (self._anchor != Anchor.CENTER):
+            self._id.pack(anchor=self._anchor, side=self._side, padx=self._margin[0], pady=self._margin[1])
+
+        else:
+            self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=0.5, rely=0.5)
