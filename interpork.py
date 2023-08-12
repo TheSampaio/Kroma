@@ -38,6 +38,7 @@ class Window():
         self.__id.title(self.__title)
         self.__id.geometry(f"{self.__size[0]}x{self.__size[1]}+{int(self.__position[0])}+{int(self.__position[1])}")
         self.__id.iconbitmap(self.__icon)
+        self.__id.focus_force()
         
         # Runs the window
         self.__id.mainloop()
@@ -45,6 +46,19 @@ class Window():
     def Close(self):
         """ Closes the window. """
         self.__id.destroy()
+
+    def Shake(self):
+        """ Shakes the window. """
+        AMOUNT = 2
+
+        for i in range(10):
+            self.__id.geometry(f"+{self.__id.winfo_x() + AMOUNT}+{self.__id.winfo_y()}")
+            self.__id.update()
+            self.__id.after(10)
+
+            self.__id.geometry(f"+{self.__id.winfo_x() - AMOUNT}+{self.__id.winfo_y()}")
+            self.__id.update()
+            self.__id.after(10)
 
     # === GET methods ===
 
@@ -86,6 +100,27 @@ class Window():
     def SetPosition(self, width, height):
         """ Sets the window's position. """
         self.__position = [width, height]
+
+class Form():
+
+    def __init__(self) -> None:
+        self.__Wnd_Main = None
+
+    # === MAIN methods ===
+
+    def _Initialze_(self):
+        super().__init__()
+        self.__Wnd_Main = Window()
+        self.__Wnd_Main.GetId().focus()
+
+    def Run(self):
+        self.__Wnd_Main.Create()
+
+    # === GET methods ===
+
+    def GetWindow(self):
+        """ Gets the current form's window. """
+        return self.__Wnd_Main
 
 class Widget():
 
@@ -328,6 +363,12 @@ class TextBox(Widget):
         else:
             self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=0.5, rely=0.5)
 
+    # === GET methods ===
+
+    def GetValue(self):
+        """ Gets the text box's content. """
+        return self._id.get()
+
 class RichTextBox(Widget):
     
     def __init__(self) -> None:
@@ -352,3 +393,9 @@ class RichTextBox(Widget):
 
         else:
             self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=0.5, rely=0.5)
+
+    # === GET methods ===
+
+    def GetValue(self):
+        """ Gets the text box's content. """
+        return self._id.get()
