@@ -50,16 +50,20 @@ class Window():
     def Shake(self):
         """ Shakes the window. """
         AMOUNT = 2
+        TIME = 10
 
-        for i in range(10):
+        for i in range(TIME):
             self.__id.geometry(f"+{self.__id.winfo_x() + AMOUNT}+{self.__id.winfo_y()}")
             self.__id.update()
-            self.__id.after(10)
+            self.__id.after(TIME)
 
             self.__id.geometry(f"+{self.__id.winfo_x() - AMOUNT}+{self.__id.winfo_y()}")
             self.__id.update()
-            self.__id.after(10)
+            self.__id.after(TIME)
 
+        self.__id.geometry(f"+{self.GetPosition()[0] - AMOUNT}+{self.GetPosition()[1]}")
+        self.__id.update()
+        
     # === GET methods ===
 
     def GetId(self):

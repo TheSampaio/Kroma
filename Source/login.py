@@ -62,6 +62,8 @@ class FormMain(Form):
         print(f"\nUsername: {self.__Txt_User.GetValue()}")
         print(f"Password: {self.__Txt_Password.GetValue()}")
 
+        self.GetWindow().Shake()
+
         Wnd_Test = Window()
         Wnd_Test.SetTitle("My Super Test Window!!!")
         Wnd_Test.SetSize(600, 450)
