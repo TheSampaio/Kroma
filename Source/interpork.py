@@ -255,12 +255,12 @@ class Form():
 
     # === MAIN methods ===
 
-    def _Initialze_(self):
+    def Initialze(self):
         super().__init__()
         self.__Wnd_Main = Window()
         self.__Wnd_Main.GetId().focus()
 
-    def _CreateSubobject_(self, widget: Widget) -> Widget:
+    def CreateSubobject(self, widget: Widget) -> Widget:
         Wdt_Generic = widget
         Wdt_Generic.SetRoot(self.__Wnd_Main)
         return Wdt_Generic

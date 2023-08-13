@@ -3,13 +3,13 @@ from interpork import *
 class FormHome(Form):
 
     def __init__(self) -> None:
-        self._Initialze_()
+        self.Initialze()
 
         # Set-up form's window
         self.GetWindow().SetTitle("Home")
 
         # Creates the rich text box
-        self.__Rxt_Text = self._CreateSubobject_(RichTextBox())
+        self.__Rxt_Text = self.CreateSubobject(RichTextBox())
         self.__Rxt_Text.SetAnchor(Anchor.CENTER)
         self.__Rxt_Text.Create()
 
@@ -24,7 +24,7 @@ class FormHome(Form):
         self.__CreateButton(Anchor.LEFT, "Left")
 
     def __CreateButton(self, anchor: Anchor, text: str):
-        Btn_Generic = self._CreateSubobject_(Button())
+        Btn_Generic = self.CreateSubobject(Button())
         Btn_Generic.SetAnchor(anchor)
         Btn_Generic.SetText(text)
         Btn_Generic.Create()
