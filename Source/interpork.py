@@ -311,6 +311,9 @@ class Button(Widget):
         """ Sets the button's text. """
         self.__text = text
 
+        if (self._id != None):
+            self._id.config(text=self.__text)
+
 class Label(Widget):
     
     def __init__(self) -> None:
@@ -328,7 +331,7 @@ class Label(Widget):
         self._id = tkinter.Label(self._root.GetId() if (self._root != None) else self._root, text=self.__text)
         self._id.config(width=self._size[0], height=self._size[1], fg=self._color, bg=self._backgroundColor)
 
-         # Set button's focus
+        # Set button's focus
         if (self._focus):
             self._id.focus()
 
@@ -351,6 +354,9 @@ class Label(Widget):
         """ Sets the label's text. """
         self.__text = text
 
+        if (self._id != None):
+            self._id.config(text=self.__text)
+
 class TextBox(Widget):
     
     def __init__(self) -> None:
@@ -363,7 +369,7 @@ class TextBox(Widget):
         self._id = tkinter.Entry(self._root.GetId() if (self._root != None) else self._root)
         self._id.config(width=self._size[0], fg=self._color, bg=self._backgroundColor, border=0)
 
-         # Set button's focus
+        # Set button's focus
         if (self._focus):
             self._id.focus()
 
@@ -395,7 +401,7 @@ class RichTextBox(Widget):
         self._id = tkinter.Text(self._root.GetId() if (self._root != None) else self._root)
         self._id.config(width=self._size[0], height=self._size[1], border=0)
 
-         # Set button's focus
+        # Set button's focus
         if (self._focus):
             self._id.focus()
 
