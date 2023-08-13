@@ -9,8 +9,7 @@ class FormHome(Form):
         self.GetWindow().SetTitle("Home")
 
         # Creates the rich text box
-        self.__Rxt_Text = RichTextBox()
-        self.__Rxt_Text.SetRoot(self.GetWindow())
+        self.__Rxt_Text = self._CreateSubobject_(RichTextBox())
         self.__Rxt_Text.SetAnchor(Anchor.CENTER)
         self.__Rxt_Text.Create()
 
@@ -25,8 +24,7 @@ class FormHome(Form):
         self.__CreteButton(Anchor.LEFT, "Left")
 
     def __CreteButton(self, anchor: Anchor, text: str):
-        Btn_Generic = Button()
-        Btn_Generic.SetRoot(self.GetWindow())
+        Btn_Generic = self._CreateSubobject_(Button())
         Btn_Generic.SetAnchor(anchor)
         Btn_Generic.SetText(text)
         Btn_Generic.Create()

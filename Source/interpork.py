@@ -105,27 +105,6 @@ class Window():
         """ Sets the window's position. """
         self.__position = [width, height]
 
-class Form():
-
-    def __init__(self) -> None:
-        self.__Wnd_Main = None
-
-    # === MAIN methods ===
-
-    def _Initialze_(self):
-        super().__init__()
-        self.__Wnd_Main = Window()
-        self.__Wnd_Main.GetId().focus()
-
-    def Run(self):
-        self.__Wnd_Main.Create()
-
-    # === GET methods ===
-
-    def GetWindow(self):
-        """ Gets the current form's window. """
-        return self.__Wnd_Main
-
 class Widget():
 
     def __init__(self) -> None:
@@ -268,6 +247,32 @@ class Widget():
     def SetSize(self, width: int, height: int):
         """ Sets the widget's size in pixels. """
         self._size = [width, height]
+
+class Form():
+
+    def __init__(self) -> None:
+        self.__Wnd_Main = None
+
+    # === MAIN methods ===
+
+    def _Initialze_(self):
+        super().__init__()
+        self.__Wnd_Main = Window()
+        self.__Wnd_Main.GetId().focus()
+
+    def _CreateSubobject_(self, widget: Widget) -> Widget:
+        Wdt_Generic = widget
+        Wdt_Generic.SetRoot(self.__Wnd_Main)
+        return Wdt_Generic
+
+    def Run(self):
+        self.__Wnd_Main.Create()
+
+    # === GET methods ===
+
+    def GetWindow(self):
+        """ Gets the current form's window. """
+        return self.__Wnd_Main
 
 class Button(Widget):
 
