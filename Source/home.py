@@ -14,16 +14,16 @@ class FormHome(Form):
         self.__Rxt_Text.Create()
 
         # Creates window's buttons
-        self.__CreteButton(Anchor.TOP, "Top")
-        self.__CreteButton(Anchor.TOP_RIGHT, "Top Right")
-        self.__CreteButton(Anchor.TOP_LEFT, "Top Left")
-        self.__CreteButton(Anchor.BOTTOM, "Bottom")
-        self.__CreteButton(Anchor.BOTTOM_RIGHT, "Bottom Right")
-        self.__CreteButton(Anchor.BOTTOM_LEFT, "Bottom Left")
-        self.__CreteButton(Anchor.RIGHT, "Right")
-        self.__CreteButton(Anchor.LEFT, "Left")
+        self.__CreateButton(Anchor.TOP, "Top")
+        self.__CreateButton(Anchor.TOP_RIGHT, "Top Right")
+        self.__CreateButton(Anchor.TOP_LEFT, "Top Left")
+        self.__CreateButton(Anchor.BOTTOM, "Bottom")
+        self.__CreateButton(Anchor.BOTTOM_RIGHT, "Bottom Right")
+        self.__CreateButton(Anchor.BOTTOM_LEFT, "Bottom Left")
+        self.__CreateButton(Anchor.RIGHT, "Right")
+        self.__CreateButton(Anchor.LEFT, "Left")
 
-    def __CreteButton(self, anchor: Anchor, text: str):
+    def __CreateButton(self, anchor: Anchor, text: str):
         Btn_Generic = self._CreateSubobject_(Button())
         Btn_Generic.SetAnchor(anchor)
         Btn_Generic.SetText(text)
