@@ -1,4 +1,4 @@
-from Source.login import *
+from login import *
 
 if __name__ == "__main__":
     Application = FormMain()

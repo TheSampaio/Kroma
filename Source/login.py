@@ -5,7 +5,7 @@ class FormMain(Form):
     def __init__(self) -> None:
         self._Initialze_()
 
-        self.GetWindow().SetIcon("Data/Icon/icon-group-retiro.ico")
+        self.GetWindow().SetIcon("Source\\Data\\Icon\\icon-group-retiro.ico")
         self.GetWindow().SetTitle("Login")
         self.GetWindow().SetSize(400, 300)
 
@@ -61,13 +61,6 @@ class FormMain(Form):
     def __Btn_Login_Click(self):
         print(f"\nUsername: {self.__Txt_User.GetValue()}")
         print(f"Password: {self.__Txt_Password.GetValue()}")
-
-        self.GetWindow().Shake()
-
-        Wnd_Test = Window()
-        Wnd_Test.SetTitle("My Super Test Window!!!")
-        Wnd_Test.SetSize(600, 450)
-        Wnd_Test.Create()
 
     def __Btn_Close_Click(self):
         self.GetWindow().Close()
