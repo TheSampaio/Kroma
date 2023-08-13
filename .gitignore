@@ -2,8 +2,7 @@
 .vs/
 .vscode/
 __pycache__/
-build/
-dist/
+_Output/
 
 # Files
 *.user
