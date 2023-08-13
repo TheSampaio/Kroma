@@ -1,11 +1,13 @@
 from interpork import *
+from home import FormHome
 
 class FormMain(Form):
 
     def __init__(self) -> None:
         self._Initialze_()
+        self.__ICON = "Source\\Data\\Icon\\icon-group-retiro.ico"
 
-        self.GetWindow().SetIcon("Source\\Data\\Icon\\icon-group-retiro.ico")
+        self.GetWindow().SetIcon(self.__ICON)
         self.GetWindow().SetTitle("Login")
         self.GetWindow().SetSize(400, 300)
 
@@ -61,6 +63,10 @@ class FormMain(Form):
     def __Btn_Login_Click(self):
         print(f"\nUsername: {self.__Txt_User.GetValue()}")
         print(f"Password: {self.__Txt_Password.GetValue()}")
+
+        Frm_Home = FormHome()
+        Frm_Home.GetWindow().SetIcon(self.__ICON)
+        Frm_Home.Run()
 
     def __Btn_Close_Click(self):
         self.GetWindow().Close()

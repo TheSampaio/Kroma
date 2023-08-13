@@ -247,7 +247,7 @@ class Widget():
 
             case Anchor.RIGHT:
                 self._anchor = anchor
-                self._side = Side.LEFT
+                self._side = Side.RIGHT
 
             case Anchor.LEFT:
                 self._anchor = anchor
