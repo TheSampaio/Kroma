@@ -8,8 +8,13 @@ class FormHome(Form):
         # Set-up form's window
         self.GetWindow().SetTitle("Home")
 
+        # Creates the rich text box
+        self.__Rxt_Text = RichTextBox()
+        self.__Rxt_Text.SetRoot(self.GetWindow())
+        self.__Rxt_Text.SetAnchor(Anchor.CENTER)
+        self.__Rxt_Text.Create()
+
         # Creates window's buttons
-        self.__CreteButton(Anchor.CENTER, "Center")
         self.__CreteButton(Anchor.TOP, "Top")
         self.__CreteButton(Anchor.TOP_RIGHT, "Top Right")
         self.__CreteButton(Anchor.TOP_LEFT, "Top Left")

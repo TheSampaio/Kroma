@@ -281,6 +281,7 @@ class Button(Widget):
     # === MAIN methods ===
 
     def Create(self):
+        """ Creates the button. """
         self._id = tkinter.Button(self._root.GetId() if (self._root != None) else self._root, text=self.__text, command=self.__event)
         self._id.config(width=self._size[0], height=self._size[1], fg=self._color, bg=self._backgroundColor, border=0)
 
@@ -318,6 +319,7 @@ class Label(Widget):
     # === MAIN methods ===
 
     def Create(self):
+        """ Creates the label. """
         self._id = tkinter.Label(self._root.GetId() if (self._root != None) else self._root, text=self.__text)
         self._id.config(width=self._size[0], height=self._size[1], fg=self._color, bg=self._backgroundColor)
 
@@ -379,13 +381,14 @@ class RichTextBox(Widget):
         super().__init__()
 
         # Attributes
-        self._size = [12, 12]
+        self._size = [20, 10]
 
     # === MAIN methods ===
 
     def Create(self):
+        """ Creates the rich text box. """
         self._id = tkinter.Text(self._root.GetId() if (self._root != None) else self._root)
-        self._id.config(width=self._size[0], height=self._size[1])
+        self._id.config(width=self._size[0], height=self._size[1], border=0)
 
          # Set button's focus
         if (self._focus):
