@@ -376,7 +376,7 @@ class TextBox(Widget):
 
     # === GET methods ===
 
-    def GetValue(self):
+    def GetValue(self) -> str:
         """ Gets the text box's content. """
         return self._id.get()
 
@@ -408,6 +408,6 @@ class RichTextBox(Widget):
 
     # === GET methods ===
 
-    def GetValue(self):
+    def GetValue(self) -> str:
         """ Gets the text box's content. """
         return self._id.get()

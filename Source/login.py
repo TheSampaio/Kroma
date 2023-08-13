@@ -61,12 +61,14 @@ class FormMain(Form):
         self.__Lbl_Footer.Create()
 
     def __Btn_Login_Click(self):
-        print(f"\nUsername: {self.__Txt_User.GetValue()}")
-        print(f"Password: {self.__Txt_Password.GetValue()}")
+        
+        if (self.__Txt_User.GetValue().lower() == "admin" and self.__Txt_Password.GetValue() == "1234"):
+            Frm_Home = FormHome()
+            Frm_Home.GetWindow().SetIcon(self.__ICON)
+            Frm_Home.Run()
 
-        Frm_Home = FormHome()
-        Frm_Home.GetWindow().SetIcon(self.__ICON)
-        Frm_Home.Run()
+        else:
+            self.GetWindow().Shake()
 
     def __Btn_Close_Click(self):
         self.GetWindow().Close()
