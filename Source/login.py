@@ -5,9 +5,8 @@ class FormMain(Form):
 
     def __init__(self) -> None:
         self.Initialze()
-        self.__ICON = "Source\\Data\\Icon\\icon-group-retiro.ico"
 
-        self.GetWindow().SetIcon(self.__ICON)
+        self.GetWindow().SetIcon("Data\\Icon\\icon-group-retiro.ico")
         self.GetWindow().SetTitle("Login")
         self.GetWindow().SetSize(400, 300)
 
@@ -64,7 +63,7 @@ class FormMain(Form):
         
         if (self.__Txt_User.GetValue().lower() == "admin" and self.__Txt_Password.GetValue() == "1234"):
             Frm_Home = FormHome()
-            Frm_Home.GetWindow().SetIcon(self.__ICON)
+            Frm_Home.GetWindow().SetIcon(self.GetWindow().GetIcon())
             Frm_Home.Run()
 
         else:

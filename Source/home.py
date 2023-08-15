@@ -11,6 +11,7 @@ class FormHome(Form):
         # Creates the rich text box
         self.__Rxt_Text = self.CreateSubobject(RichTextBox())
         self.__Rxt_Text.SetAnchor(Anchor.CENTER)
+        self.__Rxt_Text.SetFocus(True)
         self.__Rxt_Text.Create()
 
         # Creates window's buttons

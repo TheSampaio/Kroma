@@ -38,7 +38,6 @@ class Window():
         self.__id.title(self.__title)
         self.__id.geometry(f"{self.__size[0]}x{self.__size[1]}+{int(self.__position[0])}+{int(self.__position[1])}")
         self.__id.iconbitmap(self.__icon)
-        self.__id.focus_force()
         
         # Runs the window
         self.__id.mainloop()
@@ -69,6 +68,10 @@ class Window():
     def GetId(self):
         """ Gets the window's id. """
         return self.__id
+    
+    def GetIcon(self):
+        """ Gets the window's icon. """
+        return self.__icon
 
     def GetTitle(self):
         """ Gets the window's title. """
@@ -122,7 +125,7 @@ class Widget():
         # • Behavior
         self._enabled = True
         self._visible = True
-        self._focus = False
+        self._focused = False
 
         # • Layout
         self._anchor = Anchor.TOP_LEFT
@@ -151,7 +154,7 @@ class Widget():
 
     # • Behavior
     def GetFocus(self):
-        return self._focus
+        return self._focused
     
     # • Layout
     def GetAnchor(self):
@@ -191,7 +194,7 @@ class Widget():
     # • Behavior
     def SetFocus(self, enable: bool):
         """ Focus the widget. """
-        self._focus = enable
+        self._focused = enable
 
     # • Layout
     def SetAnchor(self, anchor: Anchor):
@@ -258,9 +261,8 @@ class Form():
     def Initialze(self):
         super().__init__()
         self.__Wnd_Main = Window()
-        self.__Wnd_Main.GetId().focus()
 
-    def CreateSubobject(self, widget: Widget) -> Widget:
+    def CreateSubobject(self, widget):
         Wdt_Generic = widget
         Wdt_Generic.SetRoot(self.__Wnd_Main)
         return Wdt_Generic
@@ -291,7 +293,7 @@ class Button(Widget):
         self._id.config(width=self._size[0], height=self._size[1], fg=self._color, bg=self._backgroundColor, border=0)
 
         # Set button's focus
-        if (self._focus):
+        if (self._focused):
             self._id.focus()
 
         # Choose between "pack" and "place"
@@ -331,10 +333,6 @@ class Label(Widget):
         self._id = tkinter.Label(self._root.GetId() if (self._root != None) else self._root, text=self.__text)
         self._id.config(width=self._size[0], height=self._size[1], fg=self._color, bg=self._backgroundColor)
 
-        # Set button's focus
-        if (self._focus):
-            self._id.focus()
-
         # Choose between "pack" and "place"
         if (self._anchor != Anchor.CENTER):
             self._id.pack(anchor=self._anchor, side=self._side, padx=self._margin[0], pady=self._margin[1])
@@ -370,7 +368,7 @@ class TextBox(Widget):
         self._id.config(width=self._size[0], fg=self._color, bg=self._backgroundColor, border=0)
 
         # Set button's focus
-        if (self._focus):
+        if (self._focused):
             self._id.focus()
 
         # Choose between "pack" and "place"
@@ -402,7 +400,7 @@ class RichTextBox(Widget):
         self._id.config(width=self._size[0], height=self._size[1], border=0)
 
         # Set button's focus
-        if (self._focus):
+        if (self._focused):
             self._id.focus()
 
         # Choose between "pack" and "place"
