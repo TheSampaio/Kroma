@@ -55,7 +55,7 @@ class FormMain(Form):
 
         self.__Lbl_Footer = self.CreateSubobject(Label())
         self.__Lbl_Footer.SetAnchor(Anchor.BOTTOM_RIGHT)
-        self.__Lbl_Footer.SetText("Interpork 0.5.4 Copyright © 2023 Grupo Retiro")
+        self.__Lbl_Footer.SetText("Interpork 0.5.5 Copyright © 2023 Grupo Retiro")
         self.__Lbl_Footer.SetColor("gray")
         self.__Lbl_Footer.Create()
 
