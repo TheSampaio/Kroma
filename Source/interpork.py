@@ -255,19 +255,28 @@ class Form():
 
     def __init__(self) -> None:
         self.__Wnd_Main = None
+        self.__widgets = None
 
     # === MAIN methods ===
 
     def Initialze(self):
         super().__init__()
         self.__Wnd_Main = Window()
+        self.__widgets = []
 
     def CreateSubobject(self, widget):
         Wdt_Generic = widget
         Wdt_Generic.SetRoot(self.__Wnd_Main)
+        self.__widgets.append(widget)
         return Wdt_Generic
 
     def Run(self):
+
+        # Creates all the form's subojects
+        for i in range(len(self.__widgets)):
+            self.__widgets[i].Create()
+
+        # Creates the form's window
         self.__Wnd_Main.Create()
 
     # === GET methods ===

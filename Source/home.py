@@ -12,7 +12,6 @@ class FormHome(Form):
         self.__Rxt_Text = self.CreateSubobject(RichTextBox())
         self.__Rxt_Text.SetAnchor(Anchor.CENTER)
         self.__Rxt_Text.SetFocus(True)
-        self.__Rxt_Text.Create()
 
         # Creates window's buttons
         self.__CreateButton(Anchor.TOP, "Top")
@@ -28,4 +27,3 @@ class FormHome(Form):
         Btn_Generic = self.CreateSubobject(Button())
         Btn_Generic.SetAnchor(anchor)
         Btn_Generic.SetText(text)
-        Btn_Generic.Create()
