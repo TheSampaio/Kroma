@@ -28,6 +28,7 @@ class Window():
         self.__icon = None
         self.__title = "Window"
         self.__size = [800, 600]
+        self.__shaking = False
         self.__screen = [self.__id.winfo_screenwidth(), self.__id.winfo_screenheight()]
         self.__position = [int(self.__screen[0] / 2) - int(self.__size[0] / 2), int(self.__screen[1] / 2) - int(self.__size[1] / 2)]
 
@@ -52,17 +53,21 @@ class Window():
         TIME = 10
         CURRENT_POSITION = [self.__id.winfo_x(), self.__id.winfo_y()]
 
-        for i in range(TIME):
-            self.__id.geometry(f"+{self.__id.winfo_x() + AMOUNT}+{self.__id.winfo_y()}")
-            self.__id.update()
-            self.__id.after(TIME)
+        self.__shaking = True
 
-            self.__id.geometry(f"+{self.__id.winfo_x() - AMOUNT}+{self.__id.winfo_y()}")
-            self.__id.update()
-            self.__id.after(TIME)
+        if (self.__shaking):
+            for i in range(TIME):
+                self.__id.geometry(f"+{self.__id.winfo_x() + AMOUNT}+{self.__id.winfo_y()}")
+                self.__id.update()
+                self.__id.after(TIME)
+
+                self.__id.geometry(f"+{self.__id.winfo_x() - AMOUNT}+{self.__id.winfo_y()}")
+                self.__id.update()
+                self.__id.after(TIME)
 
         self.__id.geometry(f"+{CURRENT_POSITION[0] - AMOUNT}+{CURRENT_POSITION[1]}")
         self.__id.update()
+        self.__shaking = False
         
     # === GET methods ===
 
