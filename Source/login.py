@@ -30,6 +30,7 @@ class FormMain(Form):
         self.__Txt_Password.SetAnchor(Anchor.CENTER)
         self.__Txt_Password.SetPosition(0, -15)
         self.__Txt_Password.SetSize(32, 1)
+        self.__Txt_Password.SetPasswordCharacter('*')
 
         self.__Btn_Login = self.CreateSubobject(Button())
         self.__Btn_Login.SetAnchor(Anchor.CENTER)
@@ -49,12 +50,15 @@ class FormMain(Form):
 
         self.__Lbl_Footer = self.CreateSubobject(Label())
         self.__Lbl_Footer.SetAnchor(Anchor.BOTTOM_RIGHT)
-        self.__Lbl_Footer.SetText("Interpork 0.6.0 Copyright © 2023 Grupo Retiro")
+        self.__Lbl_Footer.SetText("Interpork 0.11.0 Copyright © 2023 Grupo Retiro")
         self.__Lbl_Footer.SetColor("gray")
 
     def __Btn_Login_Click(self):
         
-        if (self.__Txt_User.GetValue().lower() == "admin" and self.__Txt_Password.GetValue() == "1234"):
+        if (self.__Txt_User.GetContent().lower() == "admin" and self.__Txt_Password.GetContent() == "1234"):
+            self.__Txt_Password.Clear()
+
+            # New form
             Frm_Home = FormHome()
             Frm_Home.GetWindow().SetIcon(self.GetWindow().GetIcon())
             Frm_Home.Run()

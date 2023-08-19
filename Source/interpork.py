@@ -49,11 +49,10 @@ class Window():
 
     def Shake(self):
         """ Shakes the window. """
+        self.__shaking = True
+
         AMOUNT = 2
         TIME = 10
-        CURRENT_POSITION = [self.__id.winfo_x(), self.__id.winfo_y()]
-
-        self.__shaking = True
 
         if (self.__shaking):
             for i in range(TIME):
@@ -65,8 +64,6 @@ class Window():
                 self.__id.update()
                 self.__id.after(TIME)
 
-        self.__id.geometry(f"+{CURRENT_POSITION[0] - AMOUNT}+{CURRENT_POSITION[1]}")
-        self.__id.update()
         self.__shaking = False
         
     # === GET methods ===
@@ -370,17 +367,43 @@ class Label(Widget):
         if (self._id != None):
             self._id.config(text=self.__text)
 
-class TextBox(Widget):
+class InputBox(Widget):
+
+    def __init__(self) -> None:
+        super().__init__()
+
+    # === MAIN methods ===
+
+    def Clear(self):
+        """ Clears the input box's content. """
+        self._id.delete(0, len(self._id.get()))
+
+    # === GET methods ===
+
+    def GetContent(self) -> str:
+        """ Gets the input box's content. """
+        return self._id.get()    
+    
+    # === SET methods ===
+
+    def SetContent(self, Text : str):
+        """ Sets the input box's content. """
+        self._id.insert(0, Text)
+
+class TextBox(InputBox):
     
     def __init__(self) -> None:
         super().__init__()
+
+        # Attributes
+        self._character = None
 
     # === MAIN methods ===
 
     def Create(self):
         """ Creates the text box. """
         self._id = tkinter.Entry(self._root.GetId() if (self._root != None) else self._root)
-        self._id.config(width=self._size[0], fg=self._color, bg=self._backgroundColor, border=0)
+        self._id.config(width=self._size[0], fg=self._color, bg=self._backgroundColor, border=0, show=self._character)
 
         # Set button's focus
         if (self._focused):
@@ -393,13 +416,13 @@ class TextBox(Widget):
         else:
             self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=0.5, rely=0.5)
 
-    # === GET methods ===
+    # === SET methods ===
 
-    def GetValue(self) -> str:
-        """ Gets the text box's content. """
-        return self._id.get()
+    def SetPasswordCharacter(self, Character):
+        """ Sets the entry box's password character. """
+        self._character = Character
 
-class RichTextBox(Widget):
+class RichTextBox(InputBox):
     
     def __init__(self) -> None:
         super().__init__()
@@ -424,9 +447,3 @@ class RichTextBox(Widget):
 
         else:
             self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=0.5, rely=0.5)
-
-    # === GET methods ===
-
-    def GetValue(self) -> str:
-        """ Gets the text box's content. """
-        return self._id.get()
