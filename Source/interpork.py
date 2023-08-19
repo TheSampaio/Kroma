@@ -372,11 +372,21 @@ class InputBox(Widget):
     def __init__(self) -> None:
         super().__init__()
 
+        # Attributes
+        self._placeholderText = None
+        self._placeholderColor = None
+
     # === MAIN methods ===
+
+    def __OnFocusStart(self,):
+        pass
+
+    def __OnFocusEnd(self,):
+        pass
 
     def Clear(self):
         """ Clears the input box's content. """
-        self._id.delete(0, len(self._id.get()))
+        self._id.delete(0, 'end')
 
     # === GET methods ===
 
@@ -386,9 +396,17 @@ class InputBox(Widget):
     
     # === SET methods ===
 
-    def SetContent(self, Text : str):
+    def SetContent(self, text : str):
         """ Sets the input box's content. """
-        self._id.insert(0, Text)
+        self._id.insert(0, text)
+
+    def SetPlaceholder(self, text : str, color="gray"):
+        """ Sets the input box's placeholder. """
+        if (text != ""):
+            self._placeholderText = text
+            self._placeholderColor = color
+            self.bind("<FocusIn>", self.__OnFocusStart)
+            self.bind("<FocusOut>", self.__OnFocusEnd)
 
 class TextBox(InputBox):
     
@@ -418,9 +436,9 @@ class TextBox(InputBox):
 
     # === SET methods ===
 
-    def SetPasswordCharacter(self, Character):
+    def SetPasswordCharacter(self, character):
         """ Sets the entry box's password character. """
-        self._character = Character
+        self._character = character
 
 class RichTextBox(InputBox):
     

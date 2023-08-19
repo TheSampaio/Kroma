@@ -3,7 +3,6 @@
 .vscode/
 __pycache__/
 _Output/
-Test/
 
 # Files
 *.user
