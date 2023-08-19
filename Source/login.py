@@ -12,14 +12,15 @@ class FormMain(Form):
 
         self.__Lbl_User = self.CreateSubobject(Label())
         self.__Lbl_User.SetAnchor(Anchor.CENTER)
-        self.__Lbl_User.SetText("User: ")
-        self.__Lbl_User.SetPosition(-84, -80)
+        self.__Lbl_User.SetText("Username: ")
+        self.__Lbl_User.SetPosition(-69, -80)
 
         self.__Txt_User = self.CreateSubobject(TextBox())
         self.__Txt_User.SetAnchor(Anchor.CENTER)
         self.__Txt_User.SetPosition(0, -60)
         self.__Txt_User.SetSize(32, 1)
         self.__Txt_User.SetFocus(True)
+        self.__Txt_User.SetPlaceholder("Username")
 
         self.__Lbl_Password = self.CreateSubobject(Label())
         self.__Lbl_Password.SetAnchor(Anchor.CENTER)
@@ -31,6 +32,7 @@ class FormMain(Form):
         self.__Txt_Password.SetPosition(0, -15)
         self.__Txt_Password.SetSize(32, 1)
         self.__Txt_Password.SetPasswordCharacter('*')
+        self.__Txt_Password.SetPlaceholder("Password")
 
         self.__Btn_Login = self.CreateSubobject(Button())
         self.__Btn_Login.SetAnchor(Anchor.CENTER)

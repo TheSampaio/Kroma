@@ -372,41 +372,23 @@ class InputBox(Widget):
     def __init__(self) -> None:
         super().__init__()
 
-        # Attributes
-        self._placeholderText = None
-        self._placeholderColor = None
-
     # === MAIN methods ===
-
-    def __OnFocusStart(self,):
-        pass
-
-    def __OnFocusEnd(self,):
-        pass
 
     def Clear(self):
         """ Clears the input box's content. """
-        self._id.delete(0, 'end')
+        self._id.delete(0, "end")
 
     # === GET methods ===
 
     def GetContent(self) -> str:
         """ Gets the input box's content. """
-        return self._id.get()    
+        return self._id.get() if (self._placeholderMode) else ""
     
     # === SET methods ===
 
     def SetContent(self, text : str):
         """ Sets the input box's content. """
         self._id.insert(0, text)
-
-    def SetPlaceholder(self, text : str, color="gray"):
-        """ Sets the input box's placeholder. """
-        if (text != ""):
-            self._placeholderText = text
-            self._placeholderColor = color
-            self.bind("<FocusIn>", self.__OnFocusStart)
-            self.bind("<FocusOut>", self.__OnFocusEnd)
 
 class TextBox(InputBox):
     
@@ -415,15 +397,41 @@ class TextBox(InputBox):
 
         # Attributes
         self._character = None
+        self._placeholderMode = False
+        self._placeholderText = None
+        self._placeholderColor = None
 
     # === MAIN methods ===
+
+    def _OnFocusIn(self, *args):
+        """ Set-up the begin of the focus event. """
+        if (self._id["fg"] == self._placeholderColor):
+            self._placeholderMode = True
+            self._id.delete(0, "end")
+            self._id["fg"] = self._color
+            self._id.config(show=self._character)
+
+    def _OnFocusOut(self, *args):
+        """ Set-up the end of the focus event. """
+        if (not self._id.get()):
+            self._placeholderMode = False
+            self._id.insert(0, self._placeholderText)
+            self._id["fg"] = self._placeholderColor
+            self._id.config(show="")
 
     def Create(self):
         """ Creates the text box. """
         self._id = tkinter.Entry(self._root.GetId() if (self._root != None) else self._root)
-        self._id.config(width=self._size[0], fg=self._color, bg=self._backgroundColor, border=0, show=self._character)
+        self._id.config(width=self._size[0], fg=self._color, bg=self._backgroundColor, border=0)
 
-        # Set button's focus
+        # Set text box's placeholder
+        if (self._placeholderText != None):
+            self._id.bind("<FocusIn>", self._OnFocusIn)
+            self._id.bind("<FocusOut>", self._OnFocusOut)
+            self._id.insert(0, self._placeholderText)
+            self._id["fg"] = self._placeholderColor
+
+        # Set text box's focus
         if (self._focused):
             self._id.focus()
 
@@ -440,6 +448,12 @@ class TextBox(InputBox):
         """ Sets the entry box's password character. """
         self._character = character
 
+    def SetPlaceholder(self, text : str, color="gray"):
+        """ Sets the input box's placeholder. """
+        if (text != ""):
+            self._placeholderText = text
+            self._placeholderColor = color
+
 class RichTextBox(InputBox):
     
     def __init__(self) -> None:
@@ -455,7 +469,7 @@ class RichTextBox(InputBox):
         self._id = tkinter.Text(self._root.GetId() if (self._root != None) else self._root)
         self._id.config(width=self._size[0], height=self._size[1], border=0)
 
-        # Set button's focus
+        # Set rich text box's focus
         if (self._focused):
             self._id.focus()
 
