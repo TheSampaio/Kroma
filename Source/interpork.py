@@ -50,6 +50,7 @@ class Window():
         """ Shakes the window. """
         AMOUNT = 2
         TIME = 10
+        CURRENT_POSITION = [self.__id.winfo_x(), self.__id.winfo_y()]
 
         for i in range(TIME):
             self.__id.geometry(f"+{self.__id.winfo_x() + AMOUNT}+{self.__id.winfo_y()}")
@@ -60,7 +61,7 @@ class Window():
             self.__id.update()
             self.__id.after(TIME)
 
-        self.__id.geometry(f"+{self.GetPosition()[0] - AMOUNT}+{self.GetPosition()[1]}")
+        self.__id.geometry(f"+{CURRENT_POSITION[0] - AMOUNT}+{CURRENT_POSITION[1]}")
         self.__id.update()
         
     # === GET methods ===

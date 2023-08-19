@@ -49,7 +49,7 @@ class FormMain(Form):
 
         self.__Lbl_Footer = self.CreateSubobject(Label())
         self.__Lbl_Footer.SetAnchor(Anchor.BOTTOM_RIGHT)
-        self.__Lbl_Footer.SetText("Interpork 0.5.6 Copyright © 2023 Grupo Retiro")
+        self.__Lbl_Footer.SetText("Interpork 0.6.0 Copyright © 2023 Grupo Retiro")
         self.__Lbl_Footer.SetColor("gray")
 
     def __Btn_Login_Click(self):
