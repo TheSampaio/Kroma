@@ -18,13 +18,6 @@ class Anchor():
     RIGHT = "e"
     LEFT = "w"
 
-class Side():
-    # === Attributes ===
-    TOP = "top"
-    BOTTOM = "bottom"
-    RIGHT = "right"
-    LEFT = "left"
-
 class Window():
 
     def __init__(self) -> None:
@@ -138,8 +131,8 @@ class Widget():
 
         # • Layout
         self._anchor = Anchor.TOP_LEFT
+        self._padding = [0, 0]
         self._position = [0, 0]
-        self._margin = [5, 5]
         self._side = None
         self._size = [12, 1]
 
@@ -174,14 +167,6 @@ class Widget():
         """ Gets the widget's position in pixels. """
         return self._position
     
-    def GetMargin(self):
-        """ Gets the widget's margin in pixels. """
-        return self._margin
-    
-    def GetSide(self):
-        """ Gets the widget's side of the root. """
-        return self._side
-    
     def GetSize(self):
         """ Gets the widget's size in pixels. """
         return self._size
@@ -211,50 +196,43 @@ class Widget():
         match anchor:
             case Anchor.CENTER:
                 self._anchor = anchor
+                self._padding = [0.5, 0.5]
 
             case Anchor.TOP:
                 self._anchor = anchor
-                self._side = Side.TOP
+                self._padding = [0.5, 0.0]
 
             case Anchor.TOP_RIGHT:
                 self._anchor = anchor
-                self._side = Side.RIGHT
+                self._padding = [1.0, 0.0]
 
             case Anchor.TOP_LEFT:
                 self._anchor = anchor
-                self._side = Side.LEFT
+                self._padding = [0.0, 0.0]
 
             case Anchor.BOTTOM:
                 self._anchor = anchor
-                self._side = Side.BOTTOM
+                self._padding = [0.5, 1.0]
 
             case Anchor.BOTTOM_RIGHT:
                 self._anchor = anchor
-                self._side = Side.RIGHT
+                self._padding = [1.0, 1.0]
 
             case Anchor.BOTTOM_LEFT:
                 self._anchor = anchor
-                self._side = Side.LEFT
+                self._padding = [0.0, 1.0]
 
             case Anchor.RIGHT:
                 self._anchor = anchor
-                self._side = Side.RIGHT
+                self._padding = [1.0, 0.5]
 
             case Anchor.LEFT:
                 self._anchor = anchor
-                self._side = Side.LEFT
+                self._padding = [0.0, 0.5]
 
     def SetPosition(self, x: int, y: int):
         """ Sets the widget's position in pixels. """
         self._position = [x, y]
-
-    def SetMargin(self, x: int, y: int):
-        """ Sets the widget's anchor. """
-        self._margin = [x, y]
-
-    def SetSide(self, side: Side):
-        """ Sets the widget's side of the root. """
-        self._side = side
 
     def SetSize(self, width: int, height: int):
         """ Sets the widget's size in pixels. """
@@ -314,12 +292,8 @@ class Button(Widget):
         if (self._focused):
             self._id.focus()
 
-        # Choose between "pack" and "place"
-        if (self._anchor != Anchor.CENTER):
-            self._id.pack(anchor=self._anchor, side=self._side, padx=self._margin[0], pady=self._margin[1])
-
-        else:
-            self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=0.5, rely=0.5)
+        # Place the widget in the screen
+        self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
             
     # === SET methods ===
 
@@ -351,12 +325,8 @@ class Label(Widget):
         self._id = tkinter.Label(self._root.GetId() if (self._root != None) else self._root, text=self.__text)
         self._id.config(width=self._size[0], height=self._size[1], fg=self._color, bg=self._backgroundColor)
 
-        # Choose between "pack" and "place"
-        if (self._anchor != Anchor.CENTER):
-            self._id.pack(anchor=self._anchor, side=self._side, padx=self._margin[0], pady=self._margin[1])
-
-        else:
-            self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=0.5, rely=0.5)
+        # Place the widget in the screen
+        self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
 
     # === GET methods ===
 
@@ -394,7 +364,8 @@ class InputBox(Widget):
 
     def SetContent(self, text : str):
         """ Sets the input box's content. """
-        self._id.insert(0, text)
+        if (self._id != None):
+            self._id.insert(0, text)
 
 class TextBox(InputBox):
     
@@ -442,12 +413,8 @@ class TextBox(InputBox):
         if (self._focused):
             self._id.focus()
 
-        # Choose between "pack" and "place"
-        if (self._anchor != Anchor.CENTER):
-            self._id.pack(anchor=self._anchor, side=self._side, padx=self._margin[0], pady=self._margin[1])
-
-        else:
-            self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=0.5, rely=0.5)
+        # Place the widget in the screen
+        self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
 
     # === SET methods ===
 
@@ -484,9 +451,5 @@ class RichTextBox(InputBox):
         if (self._focused):
             self._id.focus()
 
-        # Choose between "pack" and "place"
-        if (self._anchor != Anchor.CENTER):
-            self._id.pack(anchor=self._anchor, side=self._side, padx=self._margin[0], pady=self._margin[1])
-
-        else:
-            self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=0.5, rely=0.5)
+         # Place the widget in the screen
+        self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])

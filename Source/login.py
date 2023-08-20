@@ -6,10 +6,12 @@ class FormMain(Form):
     def __init__(self) -> None:
         self.Initialze()
 
+        # Set-up form's window
         self.GetWindow().SetIcon("Data\\Icon\\icon-group-retiro.ico")
         self.GetWindow().SetTitle("Login")
         self.GetWindow().SetSize(400, 300)
 
+        # Creates the username's text box
         self.__Txt_User = self.CreateSubobject(TextBox())
         self.__Txt_User.SetAlignment(Align.CENTER)
         self.__Txt_User.SetAnchor(Anchor.CENTER)
@@ -18,6 +20,7 @@ class FormMain(Form):
         self.__Txt_User.SetFocus(True)
         self.__Txt_User.SetPlaceholder("Username")
 
+        # Creates the password's text box
         self.__Txt_Password = self.CreateSubobject(TextBox())
         self.__Txt_Password.SetAlignment(Align.CENTER)
         self.__Txt_Password.SetAnchor(Anchor.CENTER)
@@ -26,27 +29,31 @@ class FormMain(Form):
         self.__Txt_Password.SetPasswordCharacter('*')
         self.__Txt_Password.SetPlaceholder("Password")
 
+        # Creates the login's button
         self.__Btn_Login = self.CreateSubobject(Button())
         self.__Btn_Login.SetAnchor(Anchor.CENTER)
         self.__Btn_Login.SetText("Login")
         self.__Btn_Login.SetPosition(-50, 22)
-        self.__Btn_Login.SetEvent(self.__Btn_Login_Click)
         self.__Btn_Login.SetColor("white")
         self.__Btn_Login.SetBackgroundColor("royalblue")
+        self.__Btn_Login.SetEvent(self.__Btn_Login_Click)
 
+        # Creates the close's button
         self.__Btn_Close = self.CreateSubobject(Button())
         self.__Btn_Close.SetAnchor(Anchor.CENTER)
         self.__Btn_Close.SetText("Close")
         self.__Btn_Close.SetPosition(50, 22)
-        self.__Btn_Close.SetEvent(self.__Btn_Close_Click)
         self.__Btn_Close.SetColor("white")
         self.__Btn_Close.SetBackgroundColor("royalblue")
+        self.__Btn_Close.SetEvent(self.__Btn_Close_Click)
 
+        # Creates the footer's label
         self.__Lbl_Footer = self.CreateSubobject(Label())
         self.__Lbl_Footer.SetAnchor(Anchor.BOTTOM_RIGHT)
-        self.__Lbl_Footer.SetText("Interpork 0.11.0 Copyright © 2023 Grupo Retiro")
+        self.__Lbl_Footer.SetText("Interpork 0.14.0 Copyright © 2023 Grupo Retiro")
         self.__Lbl_Footer.SetColor("gray")
 
+    # Creates the login's click event
     def __Btn_Login_Click(self):
         
         if (self.__Txt_User.GetContent().lower() == "admin" and self.__Txt_Password.GetContent() == "1234"):
@@ -60,5 +67,6 @@ class FormMain(Form):
         else:
             self.GetWindow().Shake()
 
+    # Creates the close's click event
     def __Btn_Close_Click(self):
         self.GetWindow().Close()
