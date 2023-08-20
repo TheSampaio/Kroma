@@ -10,6 +10,7 @@ class FormMain(Form):
         self.GetWindow().SetIcon("Data\\Icon\\icon-group-retiro.ico")
         self.GetWindow().SetTitle("Login")
         self.GetWindow().SetSize(400, 300)
+        self.GetWindow().SetResizable(False)
 
         # Creates the username's text box
         self.__Txt_User = self.CreateSubobject(TextBox())

@@ -7,6 +7,7 @@ class FormHome(Form):
 
         # Set-up form's window
         self.GetWindow().SetTitle("Home")
+        self.GetWindow().SetState(State.MAXIMIZED)
 
         # Creates the rich text box
         self.__Rxt_Text = self.CreateSubobject(RichTextBox())

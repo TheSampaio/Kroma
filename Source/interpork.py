@@ -18,6 +18,13 @@ class Anchor():
     RIGHT = "e"
     LEFT = "w"
 
+class State():
+    # === Attributes ===
+    NORMAL = "normal"
+    MINIMIZED = "iconic"
+    MAXIMIZED = "zoomed"
+    HIDDEN = "withdrawn"
+
 class Window():
 
     def __init__(self) -> None:
@@ -26,7 +33,9 @@ class Window():
         self.__id = tkinter.Tk()
         self.__icon = None
         self.__title = "Window"
+        self.__resizable = None
         self.__size = [800, 600]
+        self.__state = State.NORMAL
         self.__shaking = False
         self.__screen = [self.__id.winfo_screenwidth(), self.__id.winfo_screenheight()]
         self.__position = [int(self.__screen[0] / 2) - int(self.__size[0] / 2), int(self.__screen[1] / 2) - int(self.__size[1] / 2)]
@@ -38,6 +47,10 @@ class Window():
         self.__id.title(self.__title)
         self.__id.geometry(f"{self.__size[0]}x{self.__size[1]}+{int(self.__position[0])}+{int(self.__position[1])}")
         self.__id.iconbitmap(self.__icon)
+        self.__id.state(self.__state)
+
+        if (not self.__resizable):
+            self.__id.resizable(width=self.__resizable, height=self.__resizable)
         
         # Runs the window
         self.__id.mainloop()
@@ -87,6 +100,10 @@ class Window():
         """ Gets the screen's size in pixels. """
         return self.__screen
 
+    def GetState(self):
+        """ Gets the window's state. """
+        return self.__state
+
     def GetPosition(self):
         """ Gets the window's position in pixels. """
         return self.__position
@@ -101,10 +118,18 @@ class Window():
         """ Sets the window's title. """
         self.__title = title
 
+    def SetResizable(self, resizable : bool):
+        """ Sets the window's resizable. """
+        self.__resizable = resizable
+
     def SetSize(self, width, height):
         """ Sets the window's size. """
         self.__size = [width, height]
         self.__position = [int(self.__screen[0] / 2) - int(self.__size[0] / 2), int(self.__screen[1] / 2) - int(self.__size[1] / 2)]
+
+    def SetState(self, state : State):
+        """ Sets the window's state. """
+        self.__state = state
 
     def SetPosition(self, width, height):
         """ Sets the window's position. """
@@ -241,19 +266,20 @@ class Widget():
 class Form():
 
     def __init__(self) -> None:
-        self.__Wnd_Main = None
+        # === Attributes ===
+        self.__window = None
         self.__widgets = None
 
     # === MAIN methods ===
 
     def Initialze(self):
         super().__init__()
-        self.__Wnd_Main = Window()
+        self.__window = Window()
         self.__widgets = []
 
     def CreateSubobject(self, widget):
         Wdt_Generic = widget
-        Wdt_Generic.SetRoot(self.__Wnd_Main)
+        Wdt_Generic.SetRoot(self.__window)
         self.__widgets.append(widget)
         return Wdt_Generic
 
@@ -264,20 +290,20 @@ class Form():
             self.__widgets[i].Create()
 
         # Creates the form's window
-        self.__Wnd_Main.Create()
+        self.__window.Create()
 
     # === GET methods ===
 
     def GetWindow(self):
         """ Gets the current form's window. """
-        return self.__Wnd_Main
+        return self.__window
 
 class Button(Widget):
 
     def __init__(self) -> None:
         super().__init__()
 
-        # Attributes
+        # === Attributes ===
         self.__event = None
         self.__text = "Button"
 
@@ -313,7 +339,7 @@ class Label(Widget):
     def __init__(self) -> None:
         super().__init__()
 
-        # Attributes
+        # === Attributes ===
         self.__text = "Label"
         self._size = [0, 0]
         self._backgroundColor = None
@@ -372,7 +398,7 @@ class TextBox(InputBox):
     def __init__(self) -> None:
         super().__init__()
 
-        # Attributes
+        # === Attributes ===
         self.__alignment = Align.LEFT
         self.__character = None
         self._placeholderMode = False
@@ -437,7 +463,7 @@ class RichTextBox(InputBox):
     def __init__(self) -> None:
         super().__init__()
 
-        # Attributes
+        # === Attributes ===
         self._size = [20, 10]
 
     # === MAIN methods ===
