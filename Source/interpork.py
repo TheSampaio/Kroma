@@ -1,5 +1,11 @@
 import tkinter
 
+class Align():
+    # === Attributes ===
+    LEFT = "left"
+    CENTER = "center"
+    RIGHT = "right"
+
 class Anchor():
     # === Attributes ===
     CENTER = "center"
@@ -396,7 +402,8 @@ class TextBox(InputBox):
         super().__init__()
 
         # Attributes
-        self._character = None
+        self.__alignment = Align.LEFT
+        self.__character = None
         self._placeholderMode = False
         self._placeholderText = None
         self._placeholderColor = None
@@ -409,7 +416,7 @@ class TextBox(InputBox):
             self._placeholderMode = True
             self._id.delete(0, "end")
             self._id["fg"] = self._color
-            self._id.config(show=self._character)
+            self._id.config(show=self.__character)
 
     def _OnFocusOut(self, *args):
         """ Set-up the end of the focus event. """
@@ -422,7 +429,7 @@ class TextBox(InputBox):
     def Create(self):
         """ Creates the text box. """
         self._id = tkinter.Entry(self._root.GetId() if (self._root != None) else self._root)
-        self._id.config(width=self._size[0], fg=self._color, bg=self._backgroundColor, border=0)
+        self._id.config(justify=self.__alignment, width=self._size[0], fg=self._color, bg=self._backgroundColor, border=0)
 
         # Set text box's placeholder
         if (self._placeholderText != None):
@@ -444,9 +451,13 @@ class TextBox(InputBox):
 
     # === SET methods ===
 
+    def SetAlignment(self, align : Align):
+        """ Sets the text box's alignment. """
+        self.__alignment = align
+
     def SetPasswordCharacter(self, character):
         """ Sets the entry box's password character. """
-        self._character = character
+        self.__character = character
 
     def SetPlaceholder(self, text : str, color="gray"):
         """ Sets the input box's placeholder. """
