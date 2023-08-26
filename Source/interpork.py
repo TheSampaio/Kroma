@@ -277,11 +277,19 @@ class Form():
         self.__window = Window()
         self.__widgets = []
 
-    def CreateSubobject(self, widget):
-        Wdt_Generic = widget
-        Wdt_Generic.SetRoot(self.__window)
-        self.__widgets.append(widget)
-        return Wdt_Generic
+    def CreateSubobject(self, subobject):
+
+        if (type(subobject) is Form):
+            pass
+
+        elif (isinstance(subobject, Widget)):
+            self.__widgets.append(subobject)
+            widget = subobject
+            widget.SetRoot(self.__window)
+            return widget
+
+        else:
+            print("[ERRO] The given parameter must be a 'Form' or 'Widget'.")
 
     def Run(self):
 
