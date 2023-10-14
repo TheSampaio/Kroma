@@ -318,6 +318,10 @@ class Button(Widget):
         if (self._focused):
             self._id.focus()
 
+        # Set button's hover and leave effect
+        self._id.bind("<Enter>", func=lambda e: self._id.config(cursor="hand2"))
+        self._id.bind("<Leave>", func=lambda e: self._id.config(cursor="arrow"))
+
         # Place the widget in the screen
         self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
             

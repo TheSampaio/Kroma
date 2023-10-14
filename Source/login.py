@@ -1,4 +1,4 @@
-from interpork import *
+from kroma import *
 from home import FormHome
 
 class FormMain(Form):
@@ -25,7 +25,7 @@ class FormMain(Form):
         self.__Txt_Password = self.CreateSubobject(TextBox())
         self.__Txt_Password.SetAlignment(Align.CENTER)
         self.__Txt_Password.SetAnchor(Anchor.CENTER)
-        self.__Txt_Password.SetPosition(0, -15)
+        self.__Txt_Password.SetPosition(0, -25)
         self.__Txt_Password.SetSize(32, 1)
         self.__Txt_Password.SetPasswordCharacter('*')
         self.__Txt_Password.SetPlaceholder("Password")
@@ -51,7 +51,7 @@ class FormMain(Form):
         # Creates the footer's label
         self.__Lbl_Footer = self.CreateSubobject(Label())
         self.__Lbl_Footer.SetAnchor(Anchor.BOTTOM_RIGHT)
-        self.__Lbl_Footer.SetText("Interpork 0.14.0 Copyright © 2023 Grupo Retiro")
+        self.__Lbl_Footer.SetText("Kroma 0.15.0 Copyright © 2023 - Kellvyn Sampaio")
         self.__Lbl_Footer.SetColor("gray")
 
     # Creates the login's click event
