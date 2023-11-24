@@ -159,7 +159,6 @@ class Widget():
         self._anchor = Anchor.TOP_LEFT
         self._padding = [0, 0]
         self._position = [0, 0]
-        self._side = None
         self._size = [12, 1]
 
     # === GET methods ===
@@ -491,8 +490,9 @@ class ComboBox(Widget):
         super().__init__()
 
         # === Attributes ===
-        self.__elements = []
-        self.__readonly = False
+        self.__elements = ["Combo Box"]
+        self.__readonly = "readonly"
+        self._size = [12, 0]
 
     # === MAIN methods ===
 
@@ -504,6 +504,14 @@ class ComboBox(Widget):
         # Sets the first combo box's element as default value
         self._id.set(self.__elements[0])
 
+        # Set button's focus
+        if (self._focused):
+            self._id.focus()
+
+        # Set button's hover and leave effect
+        self._id.bind("<Enter>", func=lambda e: self._id.config(cursor="hand2"))
+        self._id.bind("<Leave>", func=lambda e: self._id.config(cursor="arrow"))
+
         # Place the widget in the screen
         self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
 
@@ -511,7 +519,7 @@ class ComboBox(Widget):
 
     def GetContent(self) -> str:
         """ Gets the combo box's content """
-        return self._id.get()
+        return self._id.get() if (self._id.get() != "Combo Box") else ""
 
     # === SET methods ===
 
