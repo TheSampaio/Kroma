@@ -485,7 +485,7 @@ class RichTextBox(InputBox):
         # Place the widget in the screen
         self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
 
-class Combobox(Widget):
+class ComboBox(Widget):
 
     def __init__(self) -> None:
         super().__init__()
