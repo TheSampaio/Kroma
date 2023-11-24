@@ -1,4 +1,5 @@
 import tkinter
+from tkinter import ttk
 
 class Align():
     # === Attributes ===
@@ -481,5 +482,43 @@ class RichTextBox(InputBox):
         if (self._focused):
             self._id.focus()
 
-         # Place the widget in the screen
+        # Place the widget in the screen
         self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
+
+class Combobox(Widget):
+
+    def __init__(self) -> None:
+        super().__init__()
+
+        # === Attributes ===
+        self.__elements = []
+        self.__readonly = False
+
+    # === MAIN methods ===
+
+    def Create(self):
+        """ Creates the combo box. """
+        self._id = ttk.Combobox(self._root.GetId() if (self._root != None) else self._root, values=self.__elements)
+        self._id.config(width=self._size[0], height=self._size[1], state=self.__readonly)
+
+        # Sets the first combo box's element as default value
+        self._id.set(self.__elements[0])
+
+        # Place the widget in the screen
+        self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
+
+    # === GET methods ===
+
+    def GetContent(self) -> str:
+        """ Gets the combo box's content """
+        return self._id.get()
+
+    # === SET methods ===
+
+    def SetElements(self, elements : list) -> None:
+        """ Sets the combo box's elements """
+        self.__elements = elements
+
+    def SetReadOnly(self, readonly : bool):
+        """ Sets the combo box's state """
+        self.__readonly = "readonly" if (readonly) else "normal"
