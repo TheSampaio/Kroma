@@ -417,7 +417,7 @@ class ComboBox(Widget):
         super().__init__()
 
         # === Attributes ===
-        self.__elements = ["Combo Box"]
+        self.__content = ["Combo Box"]
         self.__readonly = "readonly"
         self._size = [12, 0]
 
@@ -425,11 +425,11 @@ class ComboBox(Widget):
 
     def Create(self):
         """ Creates the combo box. """
-        self._id = ttk.Combobox(self._root.GetId() if (self._root != None) else self._root, values=self.__elements)
+        self._id = ttk.Combobox(self._root.GetId() if (self._root != None) else self._root, values=self.__content)
         self._id.config(width=self._size[0], height=self._size[1], state=self.__readonly)
 
         # Sets the first combo box's element as default value
-        self._id.set(self.__elements[0])
+        self._id.set(self.__content[0])
 
         # Set button's focus
         if (self._focused):
@@ -445,14 +445,14 @@ class ComboBox(Widget):
     # === GET methods ===
 
     def GetContent(self) -> str:
-        """ Gets the combo box's content """
+        """ Gets the combo box's content. """
         return self._id.get() if (self._id.get() != "Combo Box") else ""
 
     # === SET methods ===
 
-    def SetElements(self, elements : list):
-        """ Sets the combo box's elements """
-        self.__elements = elements
+    def SetContent(self, content : list):
+        """ Sets the combo box's content. """
+        self.__content = content
 
     def SetReadOnly(self, readonly : bool):
         """ Sets the combo box's state """
