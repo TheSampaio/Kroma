@@ -4,7 +4,7 @@ from home import FormHome
 class FormMain(Form):
 
     def __init__(self) -> None:
-        self.Initialze()
+        self.Initialize()
 
         # Set-up form's window
         self.GetWindow().SetIcon("Data\\Icon\\icon-group-retiro.ico")
@@ -51,7 +51,7 @@ class FormMain(Form):
         # Creates the footer's label
         self.__Lbl_Footer = self.CreateSubobject(Label())
         self.__Lbl_Footer.SetAnchor(Anchor.BOTTOM_RIGHT)
-        self.__Lbl_Footer.SetText("Kroma 0.18.1 Copyright © 2023 - Kellvyn Sampaio")
+        self.__Lbl_Footer.SetText("Kroma 0.18.2 Copyright © 2023 - Kellvyn Sampaio")
         self.__Lbl_Footer.SetColor("gray")
 
     # Creates the login's click event

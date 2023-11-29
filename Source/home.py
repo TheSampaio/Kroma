@@ -3,7 +3,7 @@ from kroma import *
 class FormHome(Form):
 
     def __init__(self) -> None:
-        self.Initialze()
+        self.Initialize()
 
         # Set-up form's window
         self.GetWindow().SetTitle("Home")
