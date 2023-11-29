@@ -310,7 +310,7 @@ class Form():
 
     # === MAIN methods ===
 
-    def Initialize(self):
+    def Initialze(self):
         super().__init__()
         self.__window = Window()
         self.__widgets = []
