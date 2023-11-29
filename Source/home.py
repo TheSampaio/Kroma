@@ -28,3 +28,5 @@ class FormHome(Form):
         Btn_Generic = self.CreateSubobject(Button())
         Btn_Generic.SetAnchor(anchor)
         Btn_Generic.SetText(text)
+        Btn_Generic.SetColor("white")
+        Btn_Generic.SetBackgroundColor("royalblue")

@@ -1,13 +1,16 @@
 import tkinter
 from tkinter import ttk
+from tkinter import messagebox
 
 class Align():
+
     # === Attributes ===
     LEFT = "left"
     CENTER = "center"
     RIGHT = "right"
 
 class Anchor():
+
     # === Attributes ===
     CENTER = "center"
     TOP = "n"
@@ -20,11 +23,45 @@ class Anchor():
     LEFT = "w"
 
 class State():
+
     # === Attributes ===
     NORMAL = "normal"
     MINIMIZED = "iconic"
     MAXIMIZED = "zoomed"
     HIDDEN = "withdrawn"
+
+class MessageBoxType():
+
+    # === Attributes ===
+    INFORMATION = 0
+    WARNING = 1
+    ERROR = 2
+    QUESTION = 3
+
+class MessageBox():
+
+    # === MAIN methods ===
+
+    @staticmethod
+    def Show(message : str, type=MessageBoxType.INFORMATION, title="Message Box") -> bool:
+        """ It shows a message box. Returns true if it succeeds or if the 'Yes' option was chosen (Question message box). """
+
+        match (type):
+            case MessageBoxType.QUESTION:
+                return True if (messagebox.askyesno(title, message)) else False
+
+            case MessageBoxType.ERROR:
+                messagebox.showerror(title, message)
+                return True
+
+            case MessageBoxType.WARNING:
+                messagebox.showwarning(title, message)
+                return True
+            
+            case _:
+                messagebox.showinfo(title, message)
+                return True
+
 
 class Window():
 
@@ -152,7 +189,7 @@ class Widget():
 
         # • Behavior
         self._enabled = True
-        self._visible = True
+        # self._visible = True (Work in progress)
         self._focused = False
 
         # • Layout
@@ -218,7 +255,8 @@ class Widget():
     # • Layout
     def SetAnchor(self, anchor: Anchor):
         """ Sets the widget's anchor. """
-        match anchor:
+
+        match (anchor):
             case Anchor.CENTER:
                 self._anchor = anchor
                 self._padding = [0.5, 0.5]
@@ -373,6 +411,54 @@ class Label(Widget):
         if (self._id != None):
             self._id.config(text=self.__text)
 
+class ComboBox(Widget):
+
+    def __init__(self) -> None:
+        super().__init__()
+
+        # === Attributes ===
+        self.__elements = ["Combo Box"]
+        self.__readonly = "readonly"
+        self._size = [12, 0]
+
+    # === MAIN methods ===
+
+    def Create(self):
+        """ Creates the combo box. """
+        self._id = ttk.Combobox(self._root.GetId() if (self._root != None) else self._root, values=self.__elements)
+        self._id.config(width=self._size[0], height=self._size[1], state=self.__readonly)
+
+        # Sets the first combo box's element as default value
+        self._id.set(self.__elements[0])
+
+        # Set button's focus
+        if (self._focused):
+            self._id.focus()
+
+        # Set button's hover and leave effect
+        self._id.bind("<Enter>", func=lambda e: self._id.config(cursor="hand2"))
+        self._id.bind("<Leave>", func=lambda e: self._id.config(cursor="arrow"))
+
+        # Place the widget in the screen
+        self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
+
+    # === GET methods ===
+
+    def GetContent(self) -> str:
+        """ Gets the combo box's content """
+        return self._id.get() if (self._id.get() != "Combo Box") else ""
+
+    # === SET methods ===
+
+    def SetElements(self, elements : list):
+        """ Sets the combo box's elements """
+        self.__elements = elements
+
+    def SetReadOnly(self, readonly : bool):
+        """ Sets the combo box's state """
+        self.__readonly = "readonly" if (readonly) else "normal"
+
+
 class InputBox(Widget):
 
     def __init__(self) -> None:
@@ -483,50 +569,3 @@ class RichTextBox(InputBox):
 
         # Place the widget in the screen
         self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
-
-class ComboBox(Widget):
-
-    def __init__(self) -> None:
-        super().__init__()
-
-        # === Attributes ===
-        self.__elements = ["Combo Box"]
-        self.__readonly = "readonly"
-        self._size = [12, 0]
-
-    # === MAIN methods ===
-
-    def Create(self):
-        """ Creates the combo box. """
-        self._id = ttk.Combobox(self._root.GetId() if (self._root != None) else self._root, values=self.__elements)
-        self._id.config(width=self._size[0], height=self._size[1], state=self.__readonly)
-
-        # Sets the first combo box's element as default value
-        self._id.set(self.__elements[0])
-
-        # Set button's focus
-        if (self._focused):
-            self._id.focus()
-
-        # Set button's hover and leave effect
-        self._id.bind("<Enter>", func=lambda e: self._id.config(cursor="hand2"))
-        self._id.bind("<Leave>", func=lambda e: self._id.config(cursor="arrow"))
-
-        # Place the widget in the screen
-        self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
-
-    # === GET methods ===
-
-    def GetContent(self) -> str:
-        """ Gets the combo box's content """
-        return self._id.get() if (self._id.get() != "Combo Box") else ""
-
-    # === SET methods ===
-
-    def SetElements(self, elements : list) -> None:
-        """ Sets the combo box's elements """
-        self.__elements = elements
-
-    def SetReadOnly(self, readonly : bool):
-        """ Sets the combo box's state """
-        self.__readonly = "readonly" if (readonly) else "normal"

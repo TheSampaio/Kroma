@@ -51,7 +51,7 @@ class FormMain(Form):
         # Creates the footer's label
         self.__Lbl_Footer = self.CreateSubobject(Label())
         self.__Lbl_Footer.SetAnchor(Anchor.BOTTOM_RIGHT)
-        self.__Lbl_Footer.SetText("Kroma 0.17.0 Copyright © 2023 - Kellvyn Sampaio")
+        self.__Lbl_Footer.SetText("Kroma 0.18.0 Copyright © 2023 - Kellvyn Sampaio")
         self.__Lbl_Footer.SetColor("gray")
 
     # Creates the login's click event
@@ -66,6 +66,7 @@ class FormMain(Form):
             Frm_Home.Run()
 
         else:
+            MessageBox.Show("Please, verify your username and password.", MessageBoxType.WARNING)
             self.GetWindow().Shake()
 
     # Creates the close's click event
