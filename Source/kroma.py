@@ -122,37 +122,37 @@ class Window():
         """ Gets the window's id. """
         return self.__id
     
-    def GetIcon(self):
+    def GetIcon(self) -> str:
         """ Gets the window's icon. """
         return self.__icon
 
-    def GetTitle(self):
+    def GetTitle(self) -> str:
         """ Gets the window's title. """
         return self.__title
 
-    def GetSize(self):
+    def GetSize(self) -> list:
         """ Gets the window's size. """
         return self.__size
 
-    def GetScreen(self):
+    def GetScreen(self) -> list:
         """ Gets the screen's size in pixels. """
         return self.__screen
 
-    def GetState(self):
+    def GetState(self) -> str:
         """ Gets the window's state. """
         return self.__state
 
-    def GetPosition(self):
+    def GetPosition(self) -> list:
         """ Gets the window's position in pixels. """
         return self.__position
 
     # === SET methods ===
 
-    def SetIcon(self, icon):
+    def SetIcon(self, icon : str):
         """ Sets the window's icon. """
         self.__icon = icon
 
-    def SetTitle(self, title):
+    def SetTitle(self, title : str):
         """ Sets the window's title. """
         self.__title = title
 
@@ -160,7 +160,7 @@ class Window():
         """ Sets the window's resizable. """
         self.__resizable = resizable
 
-    def SetSize(self, width, height):
+    def SetSize(self, width : int, height : int):
         """ Sets the window's size. """
         self.__size = [width, height]
         self.__position = [int(self.__screen[0] / 2) - int(self.__size[0] / 2), int(self.__screen[1] / 2) - int(self.__size[1] / 2)]
@@ -169,7 +169,7 @@ class Window():
         """ Sets the window's state. """
         self.__state = state
 
-    def SetPosition(self, width, height):
+    def SetPosition(self, width : int, height : int):
         """ Sets the window's position. """
         self.__position = [width, height]
 
@@ -210,26 +210,26 @@ class Widget():
         return self._root
     
     # • Appearance
-    def GetColor(self):
+    def GetColor(self) -> str:
         return self._color
     
-    def GetBackgroundColor(self):
+    def GetBackgroundColor(self) -> str:
         return self._backgroundColor
 
     # • Behavior
-    def GetFocus(self):
+    def GetFocus(self) -> bool:
         return self._focused
     
     # • Layout
-    def GetAnchor(self):
+    def GetAnchor(self) -> str:
         """ Gets the widget's anchor. """
         return self._anchor
     
-    def GetPosition(self):
+    def GetPosition(self) -> list:
         """ Gets the widget's position in pixels. """
         return self._position
     
-    def GetSize(self):
+    def GetSize(self) -> list:
         """ Gets the widget's size in pixels. """
         return self._size
 
@@ -332,7 +332,7 @@ class Form():
 
     # === GET methods ===
 
-    def GetWindow(self):
+    def GetWindow(self) -> Window:
         """ Gets the current form's window. """
         return self.__window
 
@@ -398,7 +398,7 @@ class Label(Widget):
 
     # === GET methods ===
 
-    def GetText(self):
+    def GetText(self) -> str:
         """ Sets the label's text. """
         return self.__text
     
