@@ -1,5 +1,4 @@
-from login import FormMain
+from login import FormLogin
 
 if __name__ == "__main__":
-    Application = FormMain()
-    Application.Run()
+    FormLogin().Run()

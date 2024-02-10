@@ -1,32 +1,35 @@
-from kroma import *
+from kroma import Anchor, Button, Colour, MessageBox, State, Window
 
-class FormHome(Form):
+class FormHome(Window):
 
-    def __init__(self) -> None:
-        self.Initialize()
+    def OnConstruct(self) -> None:
+        self.SetIcon("Data\\Icon\\icon-kroma.ico")
+        self.SetState(State.MAXIMIZED)
+        self.SetTitle("Home")
+    
+    def OnStart(self) -> None:        
+        # Upper
+        self.__CreateButtons(Anchor.TOP_LEFT, "Top Left")
+        self.__CreateButtons(Anchor.TOP, "Top")
+        self.__CreateButtons(Anchor.TOP_RIGHT, "Top Right")
 
-        # Set-up form's window
-        self.GetWindow().SetTitle("Home")
-        self.GetWindow().SetState(State.MAXIMIZED)
+        # Middle
+        self.__CreateButtons(Anchor.LEFT, "Left")
+        self.__CreateButtons(Anchor.CENTER, "Center", True, self.__Greetings)
+        self.__CreateButtons(Anchor.RIGHT, "Right")
 
-        # Creates the rich text box
-        self.__Rxt_Text = self.CreateSubobject(RichTextBox())
-        self.__Rxt_Text.SetAnchor(Anchor.CENTER)
-        self.__Rxt_Text.SetFocus(True)
+        # Lower
+        self.__CreateButtons(Anchor.BOTTOM_LEFT, "Bottom Left")
+        self.__CreateButtons(Anchor.BOTTOM, "Bottom")
+        self.__CreateButtons(Anchor.BOTTOM_RIGHT, "Bottom Right")
 
-        # Creates window's buttons
-        self.__CreateButton(Anchor.TOP, "Top")
-        self.__CreateButton(Anchor.TOP_RIGHT, "Top Right")
-        self.__CreateButton(Anchor.TOP_LEFT, "Top Left")
-        self.__CreateButton(Anchor.BOTTOM, "Bottom")
-        self.__CreateButton(Anchor.BOTTOM_RIGHT, "Bottom Right")
-        self.__CreateButton(Anchor.BOTTOM_LEFT, "Bottom Left")
-        self.__CreateButton(Anchor.RIGHT, "Right")
-        self.__CreateButton(Anchor.LEFT, "Left")
-
-    def __CreateButton(self, anchor: Anchor, text: str):
-        Btn_Generic = self.CreateSubobject(Button())
+    def __CreateButtons(self, anchor : Anchor, name : str, focus = False, event = None) -> None:
+        Btn_Generic = Button()
         Btn_Generic.SetAnchor(anchor)
-        Btn_Generic.SetText(text)
-        Btn_Generic.SetColor("white")
-        Btn_Generic.SetBackgroundColor("royalblue")
+        Btn_Generic.SetText(name)
+        Btn_Generic.SetFocus(focus)
+        Btn_Generic.SetEvent(event)
+        self.AddWidget(Btn_Generic)
+
+    def __Greetings(self):
+        MessageBox.Show("Welcome to Kroma!")

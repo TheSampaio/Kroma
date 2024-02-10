@@ -1,17 +1,22 @@
 import tkinter
-from tkinter import ttk
 from tkinter import messagebox
+from tkinter import ttk
+from time import sleep
+
 
 class Align():
 
     # === Attributes ===
+    
     LEFT = "left"
     CENTER = "center"
     RIGHT = "right"
 
+
 class Anchor():
 
     # === Attributes ===
+
     CENTER = "center"
     TOP = "n"
     TOP_RIGHT = "ne"
@@ -22,156 +27,109 @@ class Anchor():
     RIGHT = "e"
     LEFT = "w"
 
-class State():
+
+class Colour():
 
     # === Attributes ===
-    NORMAL = "normal"
-    MINIMIZED = "iconic"
-    MAXIMIZED = "zoomed"
-    HIDDEN = "withdrawn"
+
+    AQUA = "#00FFFF"
+    BLACK = "#000000"
+    BLUE = "#0000FF"
+    CYAN = "00FFFF"
+    FUCHSIA = "#FF00FF"
+    GREEN = "#008000"
+    GREY = "#808080"
+    LIME = "#00FF00"
+    MAROON = "#800000"
+    NAVY = "#000080"
+    OLIVE = "#808000"
+    ORANGE = "#F38020"
+    PINK = "#EB459E"
+    PURPLE = "#800080"
+    RED = "#FF0000"
+    ROYAL = "#4169E1"
+    SILVER = "#C0C0C0"
+    TEAL = "#008080"
+    VIOLET = "#52057F"
+    WHITE = "#FFFFFF"
+    YELLOW = "#FFFF00"
+
+
+class Cursor():
+
+    # === Attributes ===
+
+    ARROW = "arrow"
+    HAND = "hand2"
+
+
+class Event():
+
+    # === Attributes ===
+
+    DESTROY = "<Destroy>"
+    ENTER = "<Enter>"
+    LEAVE = "<Leave>"
+    FOCUS_IN = "<FocusIn>"
+    FOCUS_OUT = "<FocusOut>"
+
 
 class MessageBoxType():
 
     # === Attributes ===
+
     INFORMATION = 0
     WARNING = 1
     ERROR = 2
     QUESTION = 3
+
 
 class MessageBox():
 
     # === MAIN methods ===
 
     @staticmethod
-    def Show(message : str, type=MessageBoxType.INFORMATION, title="Message Box") -> bool:
+    def Show(message : str, title="Message Box", type=MessageBoxType.INFORMATION) -> bool:
         """ It shows a message box. Returns true if it succeeds or if the 'Yes' option was chosen (Question message box). """
 
         match (type):
             case MessageBoxType.QUESTION:
+                if (title == "Message Box"):
+                    title = "Question"
+
                 return True if (messagebox.askyesno(title, message)) else False
 
             case MessageBoxType.ERROR:
+                if (title == "Message Box"):
+                    title = "Error"
+
                 messagebox.showerror(title, message)
                 return True
 
             case MessageBoxType.WARNING:
+                if (title == "Message Box"):
+                    title = "Warning"
+
                 messagebox.showwarning(title, message)
                 return True
             
             case _:
+                if (title == "Message Box"):
+                    title = "Information"
+                    
                 messagebox.showinfo(title, message)
                 return True
 
 
-class Window():
+class State():
 
-    def __init__(self) -> None:
+    # === Attributes ===
 
-        # === Attributes ===
-        self.__id = tkinter.Tk()
-        self.__icon = None
-        self.__title = "Window"
-        self.__resizable = None
-        self.__size = [800, 600]
-        self.__state = State.NORMAL
-        self.__shaking = False
-        self.__screen = [self.__id.winfo_screenwidth(), self.__id.winfo_screenheight()]
-        self.__position = [int(self.__screen[0] / 2) - int(self.__size[0] / 2), int(self.__screen[1] / 2) - int(self.__size[1] / 2)]
+    NORMAL = "normal"
+    MINIMIZED = "iconic"
+    MAXIMIZED = "zoomed"
+    HIDDEN = "withdrawn"
 
-    # === MAIN methods ===
-
-    def Create(self):
-        """ Creates and runs the window. """
-        self.__id.title(self.__title)
-        self.__id.geometry(f"{self.__size[0]}x{self.__size[1]}+{int(self.__position[0])}+{int(self.__position[1])}")
-        self.__id.iconbitmap(self.__icon)
-        self.__id.state(self.__state)
-
-        if (not self.__resizable):
-            self.__id.resizable(width=self.__resizable, height=self.__resizable)
-        
-        # Runs the window
-        self.__id.mainloop()
-
-    def Close(self):
-        """ Closes the window. """
-        self.__id.destroy()
-
-    def Shake(self):
-        """ Shakes the window. """
-        self.__shaking = True
-
-        AMOUNT = 2
-        TIME = 10
-
-        if (self.__shaking):
-            for i in range(TIME):
-                self.__id.geometry(f"+{self.__id.winfo_x() + AMOUNT}+{self.__id.winfo_y()}")
-                self.__id.update()
-                self.__id.after(TIME)
-
-                self.__id.geometry(f"+{self.__id.winfo_x() - AMOUNT}+{self.__id.winfo_y()}")
-                self.__id.update()
-                self.__id.after(TIME)
-
-        self.__shaking = False
-        
-    # === GET methods ===
-
-    def GetId(self):
-        """ Gets the window's id. """
-        return self.__id
-    
-    def GetIcon(self) -> str:
-        """ Gets the window's icon. """
-        return self.__icon
-
-    def GetTitle(self) -> str:
-        """ Gets the window's title. """
-        return self.__title
-
-    def GetSize(self) -> list:
-        """ Gets the window's size. """
-        return self.__size
-
-    def GetScreen(self) -> list:
-        """ Gets the screen's size in pixels. """
-        return self.__screen
-
-    def GetState(self) -> str:
-        """ Gets the window's state. """
-        return self.__state
-
-    def GetPosition(self) -> list:
-        """ Gets the window's position in pixels. """
-        return self.__position
-
-    # === SET methods ===
-
-    def SetIcon(self, icon : str):
-        """ Sets the window's icon. """
-        self.__icon = icon
-
-    def SetTitle(self, title : str):
-        """ Sets the window's title. """
-        self.__title = title
-
-    def SetResizable(self, resizable : bool):
-        """ Sets the window's resizable. """
-        self.__resizable = resizable
-
-    def SetSize(self, width : int, height : int):
-        """ Sets the window's size. """
-        self.__size = [width, height]
-        self.__position = [int(self.__screen[0] / 2) - int(self.__size[0] / 2), int(self.__screen[1] / 2) - int(self.__size[1] / 2)]
-
-    def SetState(self, state : State):
-        """ Sets the window's state. """
-        self.__state = state
-
-    def SetPosition(self, width : int, height : int):
-        """ Sets the window's position. """
-        self.__position = [width, height]
 
 class Widget():
 
@@ -184,8 +142,8 @@ class Widget():
         self._root = None
 
         # • Appearance
-        self._color = "black"
-        self._backgroundColor = "white"
+        self._foregroundColour = Colour.BLACK
+        self._backgroundColour = Colour.WHITE
 
         # • Behavior
         self._enabled = True
@@ -205,16 +163,16 @@ class Widget():
         """ Gets the widget's id. """
         return self._id
     
-    def GetRoot(self):
+    def GetRoot(self) -> tkinter.Tk:
         """ Gets the widget's root. """
         return self._root
     
     # • Appearance
-    def GetColor(self) -> str:
-        return self._color
+    def GetForeColour(self) -> str:
+        return self._foregroundColour
     
-    def GetBackgroundColor(self) -> str:
-        return self._backgroundColor
+    def GetBackgroundColour(self) -> str:
+        return self._backgroundColour
 
     # • Behavior
     def GetFocus(self) -> bool:
@@ -236,24 +194,26 @@ class Widget():
     # === SET methods ===
 
     # • Data
-    def SetRoot(self, root):
+    def SetRoot(self, root) -> None:
         """ Sets the widget's root. """
         self._root = root
 
     # • Appearance
-    def SetColor(self, color: str):
-        self._color = color
+    def SetForegroundColour(self, colour: str) -> None:
+        """ Sets the widget's foreground colour. """
+        self._foregroundColour = colour
     
-    def SetBackgroundColor(self, backgroundColor: str):
-        self._backgroundColor = backgroundColor
+    def SetBackgroundColour(self, backgroundColour: str) -> None:
+        """ Sets the widget's background colour. """
+        self._backgroundColour = backgroundColour
 
     # • Behavior
-    def SetFocus(self, enable: bool):
+    def SetFocus(self, enable: bool) -> None:
         """ Focus the widget. """
         self._focused = enable
 
     # • Layout
-    def SetAnchor(self, anchor: Anchor):
+    def SetAnchor(self, anchor: Anchor) -> None:
         """ Sets the widget's anchor. """
 
         match (anchor):
@@ -293,48 +253,179 @@ class Widget():
                 self._anchor = anchor
                 self._padding = [0.0, 0.5]
 
-    def SetPosition(self, x: int, y: int):
+    def SetPosition(self, x: int, y: int) -> None:
         """ Sets the widget's position in pixels. """
         self._position = [x, y]
 
-    def SetSize(self, width: int, height: int):
+    def SetSize(self, width: int, height: int) -> None:
         """ Sets the widget's size in pixels. """
         self._size = [width, height]
 
-class Form():
+
+class Window():
 
     def __init__(self) -> None:
+
         # === Attributes ===
-        self.__window = None
-        self.__widgets = None
 
-    # === MAIN methods ===
-
-    def Initialize(self):
-        super().__init__()
-        self.__window = Window()
+        self.__isChild = False
+        self.__isClosed = False
+        self.__icon = None
+        self.__position = None
+        self.__resizable = None
+        self.__size = [800, 600]
+        self.__state = State.NORMAL
+        self.__title = "Window"
         self.__widgets = []
 
-    def CreateSubobject(self, subobject):
-        self.__widgets.append(subobject)
-        widget = subobject
-        widget.SetRoot(self.__window)
-        return widget
+        self.OnConstruct()
 
-    def Run(self):
+        # Creates the window
+        self.__id = tkinter.Tk()
+        self.__screen = [self.__id.winfo_screenwidth(), self.__id.winfo_screenheight()]
+
+        if (self.__position == None):
+            self.__position = [int(self.__screen[0] / 2) - int(self.__size[0] / 2), int(self.__screen[1] / 2) - int(self.__size[1] / 2)]
+
+        if (not self.__resizable):
+            self.__id.resizable(width=self.__resizable, height=self.__resizable)
+
+        # Set up the window
+        self.__id.geometry(f"{self.__size[0]}x{self.__size[1]}+{int(self.__position[0])}+{int(self.__position[1])}")
+        self.__id.iconbitmap(self.__icon)
+        self.__id.state(self.__state)
+        self.__id.title(self.__title)
+
+        # === Binds ===
+
+        self.__id.bind(Event.DESTROY, self.__procedure__)
+
+    def __del__(self) -> None:
+        self.OnDestruct()
+        del self.__id
+
+    # === MAIN methods ===
+        
+    def AddWidget(self, widget : Widget) -> None:
+        """ Adds a widget to the window. """
+        self.__widgets.append(widget)
+        widget.SetRoot(self.__id)
+
+    def AddWindow(self, window, destroy = False, independent = False) -> None:
+        """ Adds a child window to the current window. """
+        if (destroy):
+            self.Close()
+
+        else:
+            if (not independent):
+                window.__isChild = True
+
+        window.SetIcon(self.GetIcon())
+        window.Run()
+        
+    def Close(self) -> None:
+        """ Closes the window. """
+        self.__id.destroy()
+
+    def Run(self) -> None:
+        """ Runs the window. """
+        self.OnStart()
 
         # Creates all the form's subojects
         for i in range(len(self.__widgets)):
             self.__widgets[i].Create()
+        
+        if (not self.__isChild):
+            while (not self.__isClosed):
+                # Update
+                self.OnUpdate()
+                self.__id.update()
 
-        # Creates the form's window
-        self.__window.Create()
+                # Interval
+                sleep(0.042) # 24 FPS
+
+            self.OnEnd()
 
     # === GET methods ===
+        
+    def GetId(self) -> tkinter.Tk:
+        """ Gets the window's id. """
+        return self.__id
+    
+    def GetIcon(self) -> str:
+        """ Gets the window's icon. """
+        return self.__icon
 
-    def GetWindow(self) -> Window:
-        """ Gets the current form's window. """
-        return self.__window
+    def GetTitle(self) -> str:
+        """ Gets the window's title. """
+        return self.__title
+
+    def GetSize(self) -> list:
+        """ Gets the window's size. """
+        return self.__size
+
+    def GetScreen(self) -> list:
+        """ Gets the screen's size in pixels. """
+        return self.__screen
+
+    def GetState(self) -> str:
+        """ Gets the window's state. """
+        return self.__state
+
+    def GetPosition(self) -> list:
+        """ Gets the window's position in pixels. """
+        return self.__position
+    
+    # === SET methods ===
+
+    def SetIcon(self, icon : str):
+        """ Sets the window's icon. """
+        self.__icon = icon
+
+    def SetPosition(self, width : int, height : int) -> None:
+        """ Sets the window's position. """
+        self.__position = [width, height]
+
+    def SetResizable(self, resizable : bool):
+        """ Sets the window's resizable. """
+        self.__resizable = resizable
+
+    def SetSize(self, width : int, height : int) -> None:
+        self.__size = [width, height]
+
+    def SetState(self, state : State):
+        """ Sets the window's state. """
+        self.__state = state
+
+    def SetTitle(self, title : str) -> None:
+        self.__title = title
+
+    # === EVENT methods ===
+
+    def OnConstruct(self) -> None:
+        pass
+
+    def OnDestruct(self) -> None:
+        pass
+
+    def OnDestroy(self) -> None:
+        pass
+
+    def OnEnd(self) -> None:
+        pass
+
+    def OnStart(self) -> None:
+        pass
+
+    def OnUpdate(self) -> None:
+        pass
+
+    # === CORE methods ===
+
+    def __procedure__(self, event) -> None:
+        self.__isClosed = True
+        self.OnDestroy()
+
 
 class Button(Widget):
 
@@ -342,74 +433,44 @@ class Button(Widget):
         super().__init__()
 
         # === Attributes ===
+
+        self._foregroundColour = Colour.WHITE
+        self._backgroundColour = Colour.ROYAL
+
         self.__event = None
         self.__text = "Button"
 
     # === MAIN methods ===
 
-    def Create(self):
+    def Create(self) -> None:
         """ Creates the button. """
-        self._id = tkinter.Button(self._root.GetId() if (self._root != None) else self._root, text=self.__text, command=self.__event)
-        self._id.config(width=self._size[0], height=self._size[1], fg=self._color, bg=self._backgroundColor, border=0)
+        self._id = tkinter.Button(master=self._root, text=self.__text, command=self.__event)
+        self._id.config(width=self._size[0], height=self._size[1], fg=self._foregroundColour, bg=self._backgroundColour, border=0)
 
         # Set button's focus
         if (self._focused):
             self._id.focus()
 
         # Set button's hover and leave effect
-        self._id.bind("<Enter>", func=lambda e: self._id.config(cursor="hand2"))
-        self._id.bind("<Leave>", func=lambda e: self._id.config(cursor="arrow"))
+        self._id.bind(Event.ENTER, func=lambda e: self._id.config(cursor=Cursor.HAND))
+        self._id.bind(Event.LEAVE, func=lambda e: self._id.config(cursor=Cursor.ARROW))
 
         # Place the widget in the screen
         self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
             
     # === SET methods ===
 
-    def SetEvent(self, event):
+    def SetEvent(self, event) -> None:
         """ Sets the button's event. """
         self.__event = event
 
-    def SetText(self, text: str):
+    def SetText(self, text: str) -> None:
         """ Sets the button's text. """
         self.__text = text
 
         if (self._id != None):
             self._id.config(text=self.__text)
 
-class Label(Widget):
-    
-    def __init__(self) -> None:
-        super().__init__()
-
-        # === Attributes ===
-        self.__text = "Label"
-        self._size = [0, 0]
-        self._backgroundColor = None
-
-    # === MAIN methods ===
-
-    def Create(self):
-        """ Creates the label. """
-        self._id = tkinter.Label(self._root.GetId() if (self._root != None) else self._root, text=self.__text)
-        self._id.config(width=self._size[0], height=self._size[1], fg=self._color, bg=self._backgroundColor)
-
-        # Place the widget in the screen
-        self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
-
-    # === GET methods ===
-
-    def GetText(self) -> str:
-        """ Sets the label's text. """
-        return self.__text
-    
-    # === SET methods ===
-
-    def SetText(self, text: str):
-        """ Sets the label's text. """
-        self.__text = text
-
-        if (self._id != None):
-            self._id.config(text=self.__text)
 
 class ComboBox(Widget):
 
@@ -417,15 +478,16 @@ class ComboBox(Widget):
         super().__init__()
 
         # === Attributes ===
+
         self.__content = ["Combo Box"]
         self.__readonly = "readonly"
         self._size = [12, 0]
 
     # === MAIN methods ===
 
-    def Create(self):
+    def Create(self) -> None:
         """ Creates the combo box. """
-        self._id = ttk.Combobox(self._root.GetId() if (self._root != None) else self._root, values=self.__content)
+        self._id = ttk.Combobox(master=self._root, values=self.__content)
         self._id.config(width=self._size[0], height=self._size[1], state=self.__readonly)
 
         # Sets the first combo box's element as default value
@@ -436,8 +498,8 @@ class ComboBox(Widget):
             self._id.focus()
 
         # Set button's hover and leave effect
-        self._id.bind("<Enter>", func=lambda e: self._id.config(cursor="hand2"))
-        self._id.bind("<Leave>", func=lambda e: self._id.config(cursor="arrow"))
+        self._id.bind(Event.ENTER, func=lambda e: self._id.config(cursor=Cursor.HAND))
+        self._id.bind(Event.LEAVE, func=lambda e: self._id.config(cursor=Cursor.ARROW))
 
         # Place the widget in the screen
         self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
@@ -450,11 +512,11 @@ class ComboBox(Widget):
 
     # === SET methods ===
 
-    def SetContent(self, content : list):
+    def SetContent(self, content : list) -> None:
         """ Sets the combo box's content. """
         self.__content = content
 
-    def SetReadOnly(self, readonly : bool):
+    def SetReadOnly(self, readonly : bool) -> None:
         """ Sets the combo box's state """
         self.__readonly = "readonly" if (readonly) else "normal"
 
@@ -466,7 +528,7 @@ class InputBox(Widget):
 
     # === MAIN methods ===
 
-    def Clear(self):
+    def Clear(self) -> None:
         """ Clears the input box's content. """
         self._id.delete(0, "end")
 
@@ -478,10 +540,72 @@ class InputBox(Widget):
     
     # === SET methods ===
 
-    def SetContent(self, text : str):
+    def SetContent(self, text : str) -> None:
         """ Sets the input box's content. """
         if (self._id != None):
             self._id.insert(0, text)
+
+
+class Label(Widget):
+    
+    def __init__(self) -> None:
+        super().__init__()
+
+        # === Attributes ===
+
+        self.__text = "Label"
+        self._size = [0, 0]
+        self._backgroundColour = None
+
+    # === MAIN methods ===
+
+    def Create(self) -> None:
+        """ Creates the label. """
+        self._id = tkinter.Label(master=self._root, text=self.__text)
+        self._id.config(width=self._size[0], height=self._size[1], fg=self._foregroundColour, bg=self._backgroundColour)
+
+        # Place the widget in the screen
+        self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
+
+    # === GET methods ===
+
+    def GetText(self) -> str:
+        """ Sets the label's text. """
+        return self.__text
+    
+    # === SET methods ===
+
+    def SetText(self, text: str) -> None:
+        """ Sets the label's text. """
+        self.__text = text
+
+        if (self._id != None):
+            self._id.config(text=self.__text)
+
+
+class RichTextBox(InputBox):
+    
+    def __init__(self) -> None:
+        super().__init__()
+
+        # === Attributes ===
+
+        self._size = [20, 10]
+
+    # === MAIN methods ===
+
+    def Create(self) -> None:
+        """ Creates the rich text box. """
+        self._id = tkinter.Text(master=self._root)
+        self._id.config(width=self._size[0], height=self._size[1], border=0)
+
+        # Set rich text box's focus
+        if (self._focused):
+            self._id.focus()
+
+        # Place the widget in the screen
+        self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
+
 
 class TextBox(InputBox):
     
@@ -489,6 +613,7 @@ class TextBox(InputBox):
         super().__init__()
 
         # === Attributes ===
+
         self.__alignment = Align.LEFT
         self.__character = None
         self._placeholderMode = False
@@ -497,15 +622,15 @@ class TextBox(InputBox):
 
     # === MAIN methods ===
 
-    def _OnFocusIn(self, *args):
+    def _OnFocusIn(self, *args) -> None:
         """ Set-up the begin of the focus event. """
         if (self._id["fg"] == self._placeholderColor):
             self._placeholderMode = True
             self._id.delete(0, "end")
-            self._id["fg"] = self._color
+            self._id["fg"] = self._foregroundColour
             self._id.config(show=self.__character)
 
-    def _OnFocusOut(self, *args):
+    def _OnFocusOut(self, *args) -> None:
         """ Set-up the end of the focus event. """
         if (not self._id.get()):
             self._placeholderMode = False
@@ -513,15 +638,15 @@ class TextBox(InputBox):
             self._id["fg"] = self._placeholderColor
             self._id.config(show="")
 
-    def Create(self):
+    def Create(self) -> None:
         """ Creates the text box. """
-        self._id = tkinter.Entry(self._root.GetId() if (self._root != None) else self._root)
-        self._id.config(justify=self.__alignment, width=self._size[0], fg=self._color, bg=self._backgroundColor, border=0)
+        self._id = tkinter.Entry(master=self._root)
+        self._id.config(justify=self.__alignment, width=self._size[0], fg=self._foregroundColour, bg=self._backgroundColour, border=0)
 
         # Set text box's placeholder
         if (self._placeholderText != None):
-            self._id.bind("<FocusIn>", self._OnFocusIn)
-            self._id.bind("<FocusOut>", self._OnFocusOut)
+            self._id.bind(Event.FOCUS_IN, self._OnFocusIn)
+            self._id.bind(Event.FOCUS_OUT, self._OnFocusOut)
             self._id.insert(0, self._placeholderText)
             self._id["fg"] = self._placeholderColor
 
@@ -534,38 +659,16 @@ class TextBox(InputBox):
 
     # === SET methods ===
 
-    def SetAlignment(self, align : Align):
+    def SetAlignment(self, align : Align) -> None:
         """ Sets the text box's alignment. """
         self.__alignment = align
 
-    def SetPasswordCharacter(self, character):
+    def SetPasswordCharacter(self, character) -> None:
         """ Sets the entry box's password character. """
         self.__character = character
 
-    def SetPlaceholder(self, text : str, color="gray"):
+    def SetPlaceholder(self, text : str, colour=Colour.GREY) -> None:
         """ Sets the input box's placeholder. """
         if (text != ""):
             self._placeholderText = text
-            self._placeholderColor = color
-
-class RichTextBox(InputBox):
-    
-    def __init__(self) -> None:
-        super().__init__()
-
-        # === Attributes ===
-        self._size = [20, 10]
-
-    # === MAIN methods ===
-
-    def Create(self):
-        """ Creates the rich text box. """
-        self._id = tkinter.Text(self._root.GetId() if (self._root != None) else self._root)
-        self._id.config(width=self._size[0], height=self._size[1], border=0)
-
-        # Set rich text box's focus
-        if (self._focused):
-            self._id.focus()
-
-        # Place the widget in the screen
-        self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
+            self._placeholderColor = colour
