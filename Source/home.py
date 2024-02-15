@@ -1,4 +1,4 @@
-from kroma import Anchor, Button, Colour, MessageBox, State, Window
+from kroma import Anchor, Button, MessageBox, State, Window
 
 class FormHome(Window):
 

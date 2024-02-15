@@ -1,4 +1,4 @@
-from kroma import Align, Anchor, Button, Colour, Label, MessageBox, MessageBoxType, State, TextBox, Window
+from kroma import Align, Anchor, Button, Colour, Label, MessageBox, MessageBoxType, TextBox, Window
 from home import FormHome
 
 class FormLogin(Window):
@@ -35,7 +35,8 @@ class FormLogin(Window):
         self.__Btn_Login = Button()
         self.__Btn_Login.SetAnchor(Anchor.CENTER)
         self.__Btn_Login.SetText("Login")
-        self.__Btn_Login.SetPosition(-50, 22)
+        self.__Btn_Login.SetPosition(-52, 22)
+        self.__Btn_Login.SetSize(14, 0)
         self.__Btn_Login.SetEvent(self.__Btn_Login_Click)
         self.AddWidget(self.__Btn_Login)
 
@@ -43,14 +44,15 @@ class FormLogin(Window):
         self.__Btn_Close = Button()
         self.__Btn_Close.SetAnchor(Anchor.CENTER)
         self.__Btn_Close.SetText("Close")
-        self.__Btn_Close.SetPosition(50, 22)
+        self.__Btn_Close.SetPosition(52, 22)
+        self.__Btn_Close.SetSize(14, 0)
         self.__Btn_Close.SetEvent(self.__Btn_Close_Click)
         self.AddWidget(self.__Btn_Close)
 
         # Creates the footer's label
         self.__Lbl_Footer = Label()
         self.__Lbl_Footer.SetAnchor(Anchor.BOTTOM_RIGHT)
-        self.__Lbl_Footer.SetText("Kroma 2.0.0 Copyright © 2023-2024 Kellvyn Sampaio")
+        self.__Lbl_Footer.SetText("Kroma 2.1.0 Copyright © 2023-2024 Kellvyn Sampaio")
         self.__Lbl_Footer.SetForegroundColour(Colour.GREY)
         self.AddWidget(self.__Lbl_Footer)
 

@@ -1,6 +1,6 @@
 import tkinter
-from tkinter import messagebox
 from tkinter import ttk
+from tkinter import messagebox
 from time import sleep
 
 
@@ -342,7 +342,7 @@ class Window():
                 self.__id.update()
 
                 # Interval
-                sleep(0.042) # 24 FPS
+                sleep(0.05) # ~24 FPS
 
             self.OnEnd()
 
@@ -444,8 +444,7 @@ class Button(Widget):
 
     def Create(self) -> None:
         """ Creates the button. """
-        self._id = tkinter.Button(master=self._root, text=self.__text, command=self.__event)
-        self._id.config(width=self._size[0], height=self._size[1], fg=self._foregroundColour, bg=self._backgroundColour, border=0)
+        self._id = ttk.Button(master=self._root, width=self._size[0], text=self.__text, command=self.__event)
 
         # Set button's focus
         if (self._focused):
@@ -618,16 +617,16 @@ class TextBox(InputBox):
         self.__character = None
         self._placeholderMode = False
         self._placeholderText = None
-        self._placeholderColor = None
+        self._placeholderColour = None
 
     # === MAIN methods ===
 
     def _OnFocusIn(self, *args) -> None:
         """ Set-up the begin of the focus event. """
-        if (self._id["fg"] == self._placeholderColor):
+        if (not self._placeholderMode):
             self._placeholderMode = True
             self._id.delete(0, "end")
-            self._id["fg"] = self._foregroundColour
+            self._id["foreground"] = self._foregroundColour
             self._id.config(show=self.__character)
 
     def _OnFocusOut(self, *args) -> None:
@@ -635,20 +634,20 @@ class TextBox(InputBox):
         if (not self._id.get()):
             self._placeholderMode = False
             self._id.insert(0, self._placeholderText)
-            self._id["fg"] = self._placeholderColor
+            self._id["foreground"] = self._placeholderColour
             self._id.config(show="")
 
     def Create(self) -> None:
         """ Creates the text box. """
-        self._id = tkinter.Entry(master=self._root)
-        self._id.config(justify=self.__alignment, width=self._size[0], fg=self._foregroundColour, bg=self._backgroundColour, border=0)
+        self._id = ttk.Entry(master=self._root)
+        self._id.config(justify=self.__alignment, width=self._size[0])
 
         # Set text box's placeholder
         if (self._placeholderText != None):
             self._id.bind(Event.FOCUS_IN, self._OnFocusIn)
             self._id.bind(Event.FOCUS_OUT, self._OnFocusOut)
             self._id.insert(0, self._placeholderText)
-            self._id["fg"] = self._placeholderColor
+            self._id["foreground"] = self._placeholderColour
 
         # Set text box's focus
         if (self._focused):
@@ -671,4 +670,4 @@ class TextBox(InputBox):
         """ Sets the input box's placeholder. """
         if (text != ""):
             self._placeholderText = text
-            self._placeholderColor = colour
+            self._placeholderColour = colour
