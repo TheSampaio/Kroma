@@ -525,11 +525,23 @@ class InputBox(Widget):
     def __init__(self) -> None:
         super().__init__()
 
+        # === Attributes ===
+
+        self._placeholderMode = False
+        self._placeholderColour = None
+        self._placeholderText = None
+
     # === MAIN methods ===
 
     def Clear(self) -> None:
         """ Clears the input box's content. """
         self._id.delete(0, "end")
+
+        if (self._placeholderText != None):
+            self._id.config(show="")
+            self._placeholderMode = False
+            self._id.insert(0, self._placeholderText)
+            self._id["foreground"] = self._placeholderColour
 
     # === GET methods ===
 
@@ -596,7 +608,7 @@ class RichTextBox(InputBox):
     def Create(self) -> None:
         """ Creates the rich text box. """
         self._id = tkinter.Text(master=self._root)
-        self._id.config(width=self._size[0], height=self._size[1], border=0)
+        self._id.config(width=self._size[0], height=self._size[1])
 
         # Set rich text box's focus
         if (self._focused):
@@ -615,9 +627,6 @@ class TextBox(InputBox):
 
         self.__alignment = Align.LEFT
         self.__character = None
-        self._placeholderMode = False
-        self._placeholderText = None
-        self._placeholderColour = None
 
     # === MAIN methods ===
 

@@ -52,7 +52,7 @@ class FormLogin(Window):
         # Creates the footer's label
         self.__Lbl_Footer = Label()
         self.__Lbl_Footer.SetAnchor(Anchor.BOTTOM_RIGHT)
-        self.__Lbl_Footer.SetText("Kroma 2.1.0 Copyright © 2023-2024 Kellvyn Sampaio")
+        self.__Lbl_Footer.SetText("Kroma 2.1.1 (Alpha) Copyright © 2023-2024 Kellvyn Sampaio")
         self.__Lbl_Footer.SetForegroundColour(Colour.GREY)
         self.AddWidget(self.__Lbl_Footer)
 
