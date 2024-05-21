@@ -6,8 +6,7 @@ class Application(Window):
         self.SetSize(400, 300)
         self.SetPosition(
             (Screen.GetResolution()[0] / 2) - (self.GetSize()[0] / 2),
-            (Screen.GetResolution()[1] / 2) - (self.GetSize()[1] / 2)
-        )
+            (Screen.GetResolution()[1] / 2) - (self.GetSize()[1] / 2))
         
         self.SetTitle("Control Panel")
 

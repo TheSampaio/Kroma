@@ -96,14 +96,8 @@ class Primitive:
     def __init__(self) -> None:
 
         # === Attributes ===
-        self._id = None
         self._position = None
         self._size = [0, 0]
-
-    # === Main methods ===
-
-    def _Create(self) -> bool:
-        pass
 
     # === Get methods ===
 
@@ -122,7 +116,20 @@ class Primitive:
         self._size = [int(width), int(height)]
 
 
-class Control(Primitive):
+class Actor(Primitive):
+
+    def __init__(self) -> None:
+        super().__init__()
+
+        self._id = None
+
+    # === Main methods ===
+
+    def _Create(self) -> bool:
+        return False
+
+
+class Control:
 
     def __init__(self) -> None:
         super().__init__()
@@ -190,59 +197,11 @@ class Control(Primitive):
         self._isFocused = focus
 
 
-class Label(Control):
+class Window(Actor, Primitive):
 
     def __init__(self) -> None:
-        super().__init__()
-
-        # === Attributes === #
-        self.__colour = [Colour.BLACK, Colour.WHITE]
-        self.__font = None
-        self.__text = "Label"
-
-    # === Main methods === #
-
-    def _Create(self) -> bool:
-        """ Creates the label. """
-        self._id = tkinter.Label(master=self._root, text=self.__text)
-        self._id.config(width=self._size[0], height=self._size[1], fg=self.__colour[0], bg=self.__colour[1])
-
-        # Place the widget in the screen
-        self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
-
-    # === Get methods === #
-
-    def GetColour(self) -> list:
-        return self.__colour
-
-    def GetFont(self) -> str:
-        return self.__font
-
-    def GetText(self) -> str:
-        return self.__text
-
-    # === Set methods === #
-
-    def SetColour(self, foreground: str, background: str) -> None:
-        self.__colour = [foreground, background]
-
-    def SetFont(self, font: str) -> None:
-        pass
-
-    def SetText(self, text: str) -> None:
-        """ Sets the label's text. """
-        self.__text = text
-
-        if (self._id != None):
-            self._id.config(text=self.__text)
-
-
-class Window(Primitive):
-
-    # === Main methods ===
-
-    def __init__(self) -> None:
-        super().__init__()
+        Actor.__init__(self)
+        Primitive.__init__(self)
 
         # === Attributes ===
         self._size = [800, 600]
@@ -262,10 +221,12 @@ class Window(Primitive):
     def __proc__(self, event) -> None:
         self.__isClosed = True
 
-    def AddControl(self, widget : Control) -> None:
+    # === Main methods ===
+
+    def AddControl(self, control : Control) -> None:
         """ Adds a widget to the window. """
-        self.__controls.append(widget)
-        widget._root = self._id
+        self.__controls.append(control)
+        control._root = self._id
 
     def Run(self) -> None:
         """ Runs the window. """
@@ -295,6 +256,8 @@ class Window(Primitive):
         else:
             self._id.geometry(f"{self._size[0]}x{self._size[1]}")
 
+        return True if self._id != None else False
+
     # === Get methods ===
 
     def GetTitle(self) -> str:
@@ -321,3 +284,57 @@ class Window(Primitive):
 
     def OnUpdate(self) -> None:
         pass
+
+
+class Label(Actor, Control):
+
+    def __init__(self) -> None:
+        Actor.__init__(self)
+        Control.__init__(self)
+
+        # === Attributes === #
+        self.__colour = [Colour.BLACK, Colour.TRANSPARENT]
+        self.__text = "Label"
+
+    # === Main methods === #
+
+    def _Create(self) -> bool:
+        """ Creates the label. """
+        self._id = tkinter.Label(master=self._root, text=self.__text)
+        self._id.config(width=self._size[0], height=self._size[1], fg=self.__colour[0], bg=self.__colour[1])
+
+        # Place the widget in the screen
+        self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
+        return True if self._id != None else False
+
+    # === Get methods === #
+
+    def GetColour(self) -> list:
+        return self.__colour
+
+    def GetText(self) -> str:
+        return self.__text
+
+    # === Set methods === #
+
+    def SetColour(self, foreground: str, background: str) -> None:
+        self.__colour = [foreground, background]
+
+    def SetText(self, text: str) -> None:
+        """ Sets the label's text. """
+        self.__text = text
+
+        if (self._id != None):
+            self._id.config(text=self.__text)
+
+
+class Button(Label):
+
+    def __init__(self) -> None:
+        super().__init__()
+
+    # === Main methods === #
+
+    def _Create(self) -> bool:
+        pass
+
