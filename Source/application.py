@@ -13,7 +13,16 @@ class Application(Window):
     def OnStart(self) -> None:
         self.__lblFooter = Label()
         self.__lblFooter.SetAnchor(Anchor.BOTTOM_RIGHT)
+        self.__lblFooter.SetColour(Colour.GREY)
         self.__lblFooter.SetFocus(True)
         self.__lblFooter.SetText("Powered By Kroma - Copyright © 2023-2024")
-        self.__lblFooter.SetColour(Colour.GREY, Colour.TRANSPARENT)
         self.AddControl(self.__lblFooter)
+
+        self.__btnLogin = Button()
+        self.__btnLogin.SetAnchor(Anchor.CENTER)
+        self.__btnLogin.SetText("Login")
+        self.__btnLogin.SetEvent(self.__BtnLoginClick)
+        self.AddControl(self.__btnLogin)
+
+    def __BtnLoginClick(self):
+        pass

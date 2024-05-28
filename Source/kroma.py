@@ -1,4 +1,5 @@
 import tkinter
+from tkinter import ttk
 from time import sleep
 
 
@@ -293,15 +294,19 @@ class Label(Actor, Control):
         Control.__init__(self)
 
         # === Attributes === #
-        self.__colour = [Colour.BLACK, Colour.TRANSPARENT]
-        self.__text = "Label"
+        self._colour = [Colour.BLACK, Colour.TRANSPARENT]
+        self._text = "Label"
 
     # === Main methods === #
 
     def _Create(self) -> bool:
         """ Creates the label. """
-        self._id = tkinter.Label(master=self._root, text=self.__text)
-        self._id.config(width=self._size[0], height=self._size[1], fg=self.__colour[0], bg=self.__colour[1])
+        self._id = tkinter.Label(master=self._root, text=self._text)
+        self._id.config(width=self._size[0], height=self._size[1], fg=self._colour[0], bg=self._colour[1])
+
+        # Set label's focus
+        if self._isFocused:
+            self._id.focus()
 
         # Place the widget in the screen
         self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
@@ -310,22 +315,22 @@ class Label(Actor, Control):
     # === Get methods === #
 
     def GetColour(self) -> list:
-        return self.__colour
+        return self._colour
 
     def GetText(self) -> str:
-        return self.__text
+        return self._text
 
     # === Set methods === #
 
-    def SetColour(self, foreground: str, background: str) -> None:
-        self.__colour = [foreground, background]
+    def SetColour(self, foreground: str, background: str = None) -> None:
+            self._colour = [foreground, background if background != None else Colour.TRANSPARENT]
 
     def SetText(self, text: str) -> None:
         """ Sets the label's text. """
-        self.__text = text
+        self._text = text
 
-        if (self._id != None):
-            self._id.config(text=self.__text)
+        if self._id != None:
+            self._id.config(text=self._text)
 
 
 class Button(Label):
@@ -333,8 +338,31 @@ class Button(Label):
     def __init__(self) -> None:
         super().__init__()
 
+        self._size = [12, 0]
+
+        # === Attributes === #
+        self._text = "Button"
+        self.__event = None
+
     # === Main methods === #
 
     def _Create(self) -> bool:
-        pass
+        """ Creates the button. """
+        self._id = ttk.Button(master=self._root, width=self._size[0], text=self._text, command=self.__event)
 
+        # Set button's focus
+        if self._isFocused:
+            self._id.focus()
+
+        # Set button's hover and leave effect
+        self._id.bind(Event.ENTER, func=lambda e: self._id.config(cursor=Cursor.HAND))
+        self._id.bind(Event.LEAVE, func=lambda e: self._id.config(cursor=Cursor.ARROW))
+
+        # Place the widget in the screen
+        self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
+
+    # === Set methods === #
+
+    def SetEvent(self, event) -> None:
+        """ Sets the button's event. """
+        self.__event = event
