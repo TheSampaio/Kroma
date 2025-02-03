@@ -221,6 +221,7 @@ class Window:
     def AddWindow(self, window, destroy=False, independent=False) -> None:
         if destroy:
             self.Close()
+            
         else:
             if not independent:
                 window.__isChild = True

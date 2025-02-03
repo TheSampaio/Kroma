@@ -3,6 +3,7 @@ from kroma import *
 class Application(Window):
     
     def _OnConstruct(self) -> None:
+        self.SetIcon("_internal/_data/icon-kroma.ico")
         self.SetSize(400, 300)
         self.SetPosition(
             (Screen.GetResolution()[0] / 2) - (self.GetSize()[0] / 2),
