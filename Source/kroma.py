@@ -122,8 +122,6 @@ class Widget:
         """Initializes the widget with default properties."""
         self._id = None                      # Unique identifier for the widget.
         self._root = None                    # Reference to the root Tkinter window.
-        self._foregroundColor = Color.BLACK  # Foreground (text) color.
-        self._backgroundColor = Color.WHITE  # Background color.
         self._enabled = True                 # Determines if the widget is enabled.
         self._focused = False                # Indicates if the widget is currently focused.
         self._anchor = Anchor.TOP_LEFT       # Anchor position for alignment.
@@ -138,14 +136,6 @@ class Widget:
     def GetRoot(self) -> tkinter.Tk:
         """Returns the root Tkinter window associated with the widget."""
         return self._root
-
-    def GetForeColour(self) -> str:
-        """Returns the foreground (text) color of the widget."""
-        return self._foregroundColor
-
-    def GetBackgroundColour(self) -> str:
-        """Returns the background color of the widget."""
-        return self._backgroundColor
 
     def GetFocus(self) -> bool:
         """Returns whether the widget is currently focused."""
@@ -166,14 +156,6 @@ class Widget:
     def SetRoot(self, root) -> None:
         """Sets the root Tkinter window for the widget."""
         self._root = root
-
-    def SetForegroundColour(self, colour: str) -> None:
-        """Sets the foreground (text) color of the widget."""
-        self._foregroundColor = colour
-
-    def SetBackgroundColour(self, backgroundColour: str) -> None:
-        """Sets the background color of the widget."""
-        self._backgroundColor = backgroundColour
 
     def SetFocus(self, enable: bool) -> None:
         """Sets the focus state of the widget."""
@@ -431,10 +413,9 @@ class Button(Widget):
     def __init__(self) -> None:
         """Initializes the button with default colors, text, and no event handler."""
         super().__init__()
-        self._foregroundColor = Color.WHITE
-        self._backgroundColor = Color.ROYAL
         self.__event = None
         self.__text = "Button"
+
 
     def Create(self) -> None:
         """
@@ -514,10 +495,10 @@ class Label(Widget):
         Initializes a Label widget with default text, colors, and size.
         """
         super().__init__()
-        self._foregroundColor = Color.BLACK
-        self._backgroundColor = Color.TRANSPARENT
         self._size = [0, 1]
         self._text = "Label"
+        self.__foregroundColor = Color.BLACK
+        self.__backgroundColor = Color.TRANSPARENT
 
     def Create(self) -> bool:
         """
@@ -526,13 +507,21 @@ class Label(Widget):
         :return: True if the label is successfully created, otherwise False.
         """
         self._id = tkinter.Label(master=self._root, text=self._text)
-        self._id.config(width=self._size[0], height=self._size[1], fg=self._foregroundColor, bg=self._backgroundColor)
+        self._id.config(width=self._size[0], height=self._size[1], fg=self.__foregroundColor, bg=self.__backgroundColor)
 
         if self._focused:
             self._id.focus()
 
         self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
         return self._id is not None
+
+    def GetBackgroundColor(self) -> str:
+        """Returns the background color of the Label."""
+        return self.__backgroundColor
+    
+    def GetForegroundColor(self) -> str:
+        """Returns the foreground (text) color of the Label."""
+        return self.__foregroundColor
 
     def GetText(self) -> str:
         """
@@ -541,6 +530,14 @@ class Label(Widget):
         :return: The current text of the Label.
         """
         return self._text
+
+    def SetBackgroundColor(self, backgroundColor: str) -> None:
+        """Sets the background color of the Label."""
+        self.__backgroundColor = backgroundColor
+
+    def SetForegroundColor(self, color: str) -> None:
+        """Sets the foreground (text) color of the Label."""
+        self.__foregroundColor = color
 
     def SetText(self, text: str) -> None:
         """
@@ -562,19 +559,41 @@ class TextBox(Widget):
         Initializes a TextBox widget with a placeholder and an empty value.
         """
         super().__init__()
-        self.__placeholder = ""
-        self.__value = ""
+        self.__alignment = Align.LEFT
+        self.__foregroundColor = Color.BLACK
+        self.__character = None
+        self.__placeholderChar = ""
+        self.__placeholderColor = Color.GRAY
 
     def Create(self) -> None:
         """
         Creates the TextBox widget and places it within the parent container.
         """
-        self._id = ttk.Entry(self._root, width=self._size[0])
-        self._id.insert(0, self.__placeholder)
+        self._id = ttk.Entry(self._root, width=self._size[0], justify=self.__alignment)
+
+        if (self.__placeholderChar != ""):
+            self._id.insert(0, self.__placeholderChar)
+            self._id.config(foreground=self.__placeholderColor)
+
         self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
 
         self._id.bind(Event.FOCUS_IN, self.__focusIn)
         self._id.bind(Event.FOCUS_OUT, self.__focusOut)
+
+    def GetText(self) -> str:
+        """
+        Retrieves the current text input from the TextBox.
+        
+        :return: The text currently entered in the TextBox.
+        """
+        if (self._id.get() == self.__placeholderChar):
+            return ""
+
+        return self._id.get()
+    
+    def SetAlignment(self, align : Align) -> None:
+        """ Sets the text box's alignment. """
+        self.__alignment = align
 
     def SetText(self, text: str) -> None:
         """
@@ -584,29 +603,30 @@ class TextBox(Widget):
         """
         self.__value = text
 
+    def SetPasswordCharacter(self, character) -> None:
+        """ Sets the entry box's password character. """
+        self.__character = character
+
     def SetPlaceholder(self, placeholder: str) -> None:
         """
         Sets the placeholder text for the TextBox.
         
         :param placeholder: The placeholder text.
         """
-        self.__placeholder = placeholder
-
-    def GetText(self) -> str:
-        """
-        Retrieves the current text input from the TextBox.
-        
-        :return: The text currently entered in the TextBox.
-        """
-        return self.__value
+        self.__placeholderChar = placeholder
+    
+    def Clear(self) -> None:
+        """ Clears the text box's content. """
+        self._id.delete(0, "end")
 
     def __focusIn(self, event: callable) -> None:
         """
         Event handler for when the TextBox gains focus.
         Clears the placeholder text if it is still present.
         """
-        if self._id.get() == self.__placeholder:
+        if self._id.get() == self.__placeholderChar:
             self._id.delete(0, tkinter.END)
+            self._id.config(show=self.__character, foreground=self.__foregroundColor)
 
     def __focusOut(self, event: callable) -> None:
         """
@@ -614,5 +634,6 @@ class TextBox(Widget):
         Restores the placeholder text if the TextBox is empty.
         """
         if not self._id.get():
-            self._id.insert(0, self.__placeholder)
+            self._id.config(show="", foreground=self.__placeholderColor)
+            self._id.insert(0, self.__placeholderChar)
 
