@@ -155,5 +155,8 @@ if __name__ == "__main__":
 ```
 
 ## License
-Kroma is open-source and free to use in personal and commercial projects.
+Kroma is open-source and free to use in personal and commercial projects under the **BSD 2-Clause License**.
 
+You are free to use, modify, and distribute the software, provided that proper attribution is given.
+
+For full details, see the LICENSE file included in the repository.
