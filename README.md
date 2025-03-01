@@ -80,7 +80,7 @@ resolution = Screen.GetResolution()
 MessageBox.ShowInfo(f"Screen Resolution: {resolution[0]}x{resolution[1]}")   
 ```
 
-### Full Example: Kroma Control Panel
+### Full Example: Kroma Login Window
 ```python
 from kroma import *  
 
