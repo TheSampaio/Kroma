@@ -209,7 +209,6 @@ class Window:
     def __init__(self) -> None:
         """Initializes the window with default properties and creates a Tkinter window."""
         self.__id = None             # Reference to the Tkinter window instance
-        self.__isChild = False       # Indicates if the window is a child window
         self.__isClosed = False      # Tracks whether the window is closed
         self.__icon = None           # Window icon file path
         self.__position = None       # Window position on the screen
@@ -259,7 +258,7 @@ class Window:
         self.__widgets.append(widget)
         widget.SetRoot(self.__id)
 
-    def AddWindow(self, window, destroy=False, independent=False) -> None:
+    def AddWindow(self, window, independent: bool = False) -> None:
         """
         Adds another window.
 
@@ -268,13 +267,13 @@ class Window:
             destroy (bool): Whether to close the current window before opening the new one.
             independent (bool): If False, the new window is considered a child of this one.
         """
-        if destroy:
-            self.Close()
-        else:
-            if not independent:
-                window.__isChild = True
 
-        window.SetIcon(self.GetIcon())
+        # === DOESN'T WORKING! ===
+        # window.SetIcon(self.GetIcon())
+
+        if independent:
+            self.Close()
+
         window.Run()
 
     def Close(self) -> None:
@@ -288,13 +287,12 @@ class Window:
         for widget in self.__widgets:
             widget.Create()
 
-        if not self.__isChild:
-            while not self.__isClosed:
-                self._OnUpdate()
-                self.__id.update()
-                sleep(0.05)
+        while not self.__isClosed:
+            self._OnUpdate()
+            self.__id.update()
+            sleep(0.05)
 
-            self._OnEnd()
+        self._OnEnd()
 
     def GetId(self) -> tkinter.Tk:
         """Returns the Tkinter window instance."""
@@ -550,6 +548,81 @@ class Label(Widget):
             self._id.config(text=self._text)
 
 
+class RichTextBox(Widget):
+    """
+    A RichTextBox widget that allows users to input and edit rich text.
+    """
+    def __init__(self) -> None:
+        """
+        Initializes a RichTextBox widget with specific properties.
+        """
+        super().__init__()
+        self._size = [20, 10]  # Default size (width x height)
+        self._alignment = Align.LEFT
+        # self._foregroundColor = Color.BLACK
+        # self._backgroundColor = Color.WHITE
+        self._font = ("Arial", 10)  # Default font
+        self._fontStyle = None  # Could store bold, italic, etc.
+        self._placeholderChar = ""
+        self._placeholderColor = Color.GRAY
+
+    def Create(self) -> None:
+        """
+        Creates the RichTextBox widget and places it within the parent container.
+        """
+        self._id = tkinter.Text(self._root, width=self._size[0], height=self._size[1], font=self._font, wrap=tkinter.WORD)
+        
+        # Place the widget in the screen
+        self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
+
+        # Set focus if necessary
+        if self._focused:
+            self._id.focus()
+
+    def GetText(self) -> str:
+        """
+        Retrieves the current text input from the RichTextBox.
+        
+        :return: The text currently entered in the RichTextBox.
+        """
+        return self._id.get(1.0, tkinter.END).strip()
+
+    def SetText(self, text: str) -> None:
+        """
+        Sets the content of the RichTextBox with the provided text.
+        
+        :param text: The text to be set in the RichTextBox.
+        """
+        self._id.delete(1.0, tkinter.END)
+        self._id.insert(1.0, text)
+
+    def SetAlignment(self, align: Align) -> None:
+        """ Sets the text alignment for the RichTextBox. """
+        self._alignment = align
+        self._id.tag_configure("center", justify=tkinter.CENTER)
+        self._id.tag_add("center", "1.0", tkinter.END)
+
+    def SetFont(self, font_name: str, size: int) -> None:
+        """ Sets the font for the RichTextBox. """
+        self._font = (font_name, size)
+
+    def SetTextStyle(self, style: str) -> None:
+        """ Sets the font style (e.g., bold, italic). """
+        self._fontStyle = style
+
+        if style == "bold":
+            self._id.tag_configure("bold", font=(self._font[0], self._font[1], "bold"))
+            self._id.tag_add("bold", "1.0", tkinter.END)
+
+        elif style == "italic":
+            self._id.tag_configure("italic", font=(self._font[0], self._font[1], "italic"))
+            self._id.tag_add("italic", "1.0", tkinter.END)
+
+    def Clear(self) -> None:
+        """ Clears the rich text box's content. """
+        self._id.delete(1.0, tkinter.END)
+
+
 class TextBox(Widget):
     """
     A TextBox widget that allows users to input and edit text.
@@ -636,4 +709,3 @@ class TextBox(Widget):
         if not self._id.get():
             self._id.config(show="", foreground=self.__placeholderColor)
             self._id.insert(0, self.__placeholderChar)
-
