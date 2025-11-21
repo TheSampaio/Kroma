@@ -74,22 +74,22 @@ class MessageBox:
     """Provides static methods for displaying message boxes."""
 
     @staticmethod
-    def ShowInfo(message: str, title: str = "Information") -> None:
+    def show_info(message: str, title: str = "Information") -> None:
         """Displays an informational message box."""
         messagebox.showinfo(title, message)
 
     @staticmethod
-    def ShowWarning(message: str, title: str = "Warning") -> None:
+    def show_warning(message: str, title: str = "Warning") -> None:
         """Displays a warning message box."""
         messagebox.showwarning(title, message)
 
     @staticmethod
-    def ShowError(message: str, title: str = "Error") -> None:
+    def show_error(message: str, title: str = "Error") -> None:
         """Displays an error message box."""
         messagebox.showerror(title, message)
 
     @staticmethod
-    def ShowQuestion(message: str, title: str = "Question") -> bool:
+    def show_question(message: str, title: str = "Question") -> bool:
         return messagebox.askyesno(title, message)
 
 
@@ -97,7 +97,7 @@ class Screen:
     """Provides methods for retrieving screen-related information."""
 
     @staticmethod
-    def GetResolution() -> tuple:
+    def get_resolution() -> tuple:
         """ Gets the user's screen resolution in pixels. """
         id = tkinter.Tk()
         resolution = (id.winfo_screenwidth(), id.winfo_screenheight())
@@ -129,39 +129,39 @@ class Widget:
         self._position = [0, 0]              # X and Y position of the widget.
         self._size = [12, 1]                 # Width and height of the widget.
 
-    def GetId(self):
+    def get_id(self):
         """Returns the unique ID of the widget."""
         return self._id
 
-    def GetRoot(self) -> tkinter.Tk:
+    def get_root(self) -> tkinter.Tk:
         """Returns the root Tkinter window associated with the widget."""
         return self._root
 
-    def GetFocus(self) -> bool:
+    def get_focus(self) -> bool:
         """Returns whether the widget is currently focused."""
         return self._focused
 
-    def GetAnchor(self) -> str:
+    def get_anchor(self) -> str:
         """Returns the anchor position of the widget."""
         return self._anchor
 
-    def GetPosition(self) -> list:
+    def get_position(self) -> list:
         """Returns the position of the widget as [x, y]."""
         return self._position
 
-    def GetSize(self) -> list:
+    def get_size(self) -> list:
         """Returns the size of the widget as [width, height]."""
         return self._size
 
-    def SetRoot(self, root) -> None:
+    def get_root(self, root) -> None:
         """Sets the root Tkinter window for the widget."""
         self._root = root
 
-    def SetFocus(self, enable: bool) -> None:
+    def get_focus(self, enable: bool) -> None:
         """Sets the focus state of the widget."""
         self._focused = enable
 
-    def SetAnchor(self, anchor: Anchor) -> None:
+    def set_anchor(self, anchor: Anchor) -> None:
         """
         Sets the anchor position of the widget and updates its padding.
 
@@ -182,7 +182,7 @@ class Widget:
         self._anchor = anchor
         self._padding = anchor_padding_map.get(anchor, [0.5, 0.5])
 
-    def SetPosition(self, x: int, y: int) -> None:
+    def set_position(self, x: int, y: int) -> None:
         """
         Sets the position of the widget.
 
@@ -192,7 +192,7 @@ class Widget:
         """
         self._position = [x, y]
 
-    def SetSize(self, width: int, height: int) -> None:
+    def set_size(self, width: int, height: int) -> None:
         """
         Sets the size of the widget.
 
@@ -219,9 +219,9 @@ class Window:
         self.__title = "Window"      # Default window title
         self.__widgets = []          # List of widgets added to the window
 
-        self._OnConstruct()
+        self._on_construct()
 
-        # Create the main Tkinter window
+        # create the main Tkinter window
         self.__id = tkinter.Tk()
         self.__screen = [self.__id.winfo_screenwidth(), self.__id.winfo_screenheight()]
 
@@ -246,10 +246,10 @@ class Window:
 
     def __del__(self) -> None:
         """Handles window destruction."""
-        self._OnDestruct()
+        self._on_destruct()
         del self.__id
 
-    def AddWidget(self, widget: Widget) -> None:
+    def add_widget(self, widget: Widget) -> None:
         """
         Adds a widget to the window.
 
@@ -257,9 +257,9 @@ class Window:
             widget (Widget): The widget to add.
         """
         self.__widgets.append(widget)
-        widget.SetRoot(self.__id)
+        widget.get_root(self.__id)
 
-    def AddWindow(self, window, destroy=False, independent=False) -> None:
+    def add_window(self, window, destroy=False, independent=False) -> None:
         """
         Adds another window.
 
@@ -269,62 +269,62 @@ class Window:
             independent (bool): If False, the new window is considered a child of this one.
         """
         if destroy:
-            self.Close()
+            self.close()
         else:
             if not independent:
                 window.__isChild = True
 
-        window.SetIcon(self.GetIcon())
-        window.Run()
+        window.set_icon(self.get_icon())
+        window.run()
 
-    def Close(self) -> None:
+    def close(self) -> None:
         """Closes the window."""
         self.__id.destroy()
 
-    def Run(self) -> None:
+    def run(self) -> None:
         """Runs the window's event loop and updates widgets."""
-        self._OnStart()
+        self._on_start()
 
         for widget in self.__widgets:
-            widget.Create()
+            widget.create()
 
         if not self.__isChild:
             while not self.__isClosed:
-                self._OnUpdate()
+                self._on_update()
                 self.__id.update()
                 sleep(0.05)
 
-            self._OnEnd()
+            self._on_end()
 
-    def GetId(self) -> tkinter.Tk:
+    def get_id(self) -> tkinter.Tk:
         """Returns the Tkinter window instance."""
         return self.__id
 
-    def GetIcon(self) -> str:
+    def get_icon(self) -> str:
         """Returns the window's icon file path."""
         return self.__icon
 
-    def GetTitle(self) -> str:
+    def get_title(self) -> str:
         """Returns the window's title."""
         return self.__title
 
-    def GetSize(self) -> list:
+    def get_size(self) -> list:
         """Returns the window size as [width, height]."""
         return self.__size
 
-    def GetScreen(self) -> list:
+    def get_screen(self) -> list:
         """Returns the screen resolution as [width, height]."""
         return self.__screen
 
-    def GetState(self) -> str:
+    def get_state(self) -> str:
         """Returns the window's current state."""
         return self.__state
 
-    def GetPosition(self) -> list:
+    def get_position(self) -> list:
         """Returns the window's position as [x, y]."""
         return self.__position
 
-    def SetIcon(self, icon: str) -> None:
+    def set_icon(self, icon: str) -> None:
         """
         Sets the window icon.
 
@@ -333,7 +333,7 @@ class Window:
         """
         self.__icon = icon
 
-    def SetPosition(self, x: int, y: int) -> None:
+    def set_position(self, x: int, y: int) -> None:
         """
         Sets the window's position.
 
@@ -343,7 +343,7 @@ class Window:
         """
         self.__position = [x, y]
 
-    def SetResizable(self, resizable: bool) -> None:
+    def set_resizable(self, resizable: bool) -> None:
         """
         Sets whether the window is resizable.
 
@@ -352,7 +352,7 @@ class Window:
         """
         self.__resizable = resizable
 
-    def SetSize(self, width: int, height: int) -> None:
+    def set_size(self, width: int, height: int) -> None:
         """
         Sets the window's size.
 
@@ -362,7 +362,7 @@ class Window:
         """
         self.__size = [width, height]
 
-    def SetState(self, state: State) -> None:
+    def set_state(self, state: State) -> None:
         """
         Sets the window's state.
 
@@ -371,7 +371,7 @@ class Window:
         """
         self.__state = state
 
-    def SetTitle(self, title: str) -> None:
+    def set_title(self, title: str) -> None:
         """
         Sets the window's title.
 
@@ -380,23 +380,23 @@ class Window:
         """
         self.__title = title
 
-    def _OnConstruct(self) -> None:
+    def _on_construct(self) -> None:
         """Called when the window is constructed. Can be overridden."""
         pass
 
-    def _OnDestruct(self) -> None:
+    def _on_destruct(self) -> None:
         """Called when the window is destroyed. Can be overridden."""
         pass
 
-    def _OnEnd(self) -> None:
+    def _on_end(self) -> None:
         """Called when the window closes. Can be overridden."""
         pass
 
-    def _OnStart(self) -> None:
+    def _on_start(self) -> None:
         """Called when the window starts running. Can be overridden."""
         pass
 
-    def _OnUpdate(self) -> None:
+    def _on_update(self) -> None:
         """Called during the window's update loop. Can be overridden."""
         pass
 
@@ -417,7 +417,7 @@ class Button(Widget):
         self.__text = "Button"
 
 
-    def Create(self) -> None:
+    def create(self) -> None:
         """
         Creates a button widget and places it on the screen.
         Binds hover events to change the cursor style.
@@ -432,11 +432,11 @@ class Button(Widget):
 
         self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
 
-    def SetEvent(self, event: callable) -> None:
+    def set_event(self, event: callable) -> None:
         """Sets the event handler function for the button click event."""
         self.__event = event
 
-    def SetText(self, text: str) -> None:
+    def set_text(self, text: str) -> None:
         """Sets the button's displayed text."""
         self.__text = text
 
@@ -453,7 +453,7 @@ class ComboBox(Widget):
         self.__values = []
         self.__selected_value = None
 
-    def Create(self) -> None:
+    def create(self) -> None:
         """
         Creates the ComboBox widget and places it within the parent container.
         """
@@ -461,7 +461,7 @@ class ComboBox(Widget):
         self._id.set(self.__selected_value)
         self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
 
-    def SetValues(self, values: list) -> None:
+    def set_values(self, values: list) -> None:
         """
         Sets the list of values that the ComboBox can display.
         
@@ -469,7 +469,7 @@ class ComboBox(Widget):
         """
         self.__values = values
 
-    def SetSelectedValue(self, selected_value: str) -> None:
+    def set_selected_value(self, selected_value: str) -> None:
         """
         Sets the default selected value for the ComboBox.
         
@@ -477,7 +477,7 @@ class ComboBox(Widget):
         """
         self.__selected_value = selected_value
 
-    def GetSelectedValue(self) -> str:
+    def get_selected_value(self) -> str:
         """
         Retrieves the currently selected value from the ComboBox.
         
@@ -500,7 +500,7 @@ class Label(Widget):
         self.__foregroundColor = Color.BLACK
         self.__backgroundColor = Color.TRANSPARENT
 
-    def Create(self) -> bool:
+    def create(self) -> bool:
         """
         Creates the Label widget and places it within the parent container.
         
@@ -515,15 +515,15 @@ class Label(Widget):
         self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
         return self._id is not None
 
-    def GetBackgroundColor(self) -> str:
+    def get_background_color(self) -> str:
         """Returns the background color of the Label."""
         return self.__backgroundColor
     
-    def GetForegroundColor(self) -> str:
+    def get_foreground_color(self) -> str:
         """Returns the foreground (text) color of the Label."""
         return self.__foregroundColor
 
-    def GetText(self) -> str:
+    def get_text(self) -> str:
         """
         Retrieves the text displayed on the Label.
         
@@ -531,15 +531,15 @@ class Label(Widget):
         """
         return self._text
 
-    def SetBackgroundColor(self, backgroundColor: str) -> None:
+    def set_background_color(self, backgroundColor: str) -> None:
         """Sets the background color of the Label."""
         self.__backgroundColor = backgroundColor
 
-    def SetForegroundColor(self, color: str) -> None:
+    def set_foreground_color(self, color: str) -> None:
         """Sets the foreground (text) color of the Label."""
         self.__foregroundColor = color
 
-    def SetText(self, text: str) -> None:
+    def set_text(self, text: str) -> None:
         """
         Sets the label's text and updates it if the widget is already created.
         
@@ -565,7 +565,7 @@ class TextBox(Widget):
         self.__placeholderChar = ""
         self.__placeholderColor = Color.GRAY
 
-    def Create(self) -> None:
+    def create(self) -> None:
         """
         Creates the TextBox widget and places it within the parent container.
         """
@@ -577,10 +577,10 @@ class TextBox(Widget):
 
         self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
 
-        self._id.bind(Event.FOCUS_IN, self.__focusIn)
-        self._id.bind(Event.FOCUS_OUT, self.__focusOut)
+        self._id.bind(Event.FOCUS_IN, self._focus_In)
+        self._id.bind(Event.FOCUS_OUT, self._focus_out)
 
-    def GetText(self) -> str:
+    def get_text(self) -> str:
         """
         Retrieves the current text input from the TextBox.
         
@@ -591,11 +591,11 @@ class TextBox(Widget):
 
         return self._id.get()
     
-    def SetAlignment(self, align : Align) -> None:
+    def set_alignment(self, align : Align) -> None:
         """ Sets the text box's alignment. """
         self.__alignment = align
 
-    def SetText(self, text: str) -> None:
+    def set_text(self, text: str) -> None:
         """
         Sets the text value of the TextBox.
         
@@ -603,11 +603,11 @@ class TextBox(Widget):
         """
         self.__value = text
 
-    def SetPasswordCharacter(self, character) -> None:
+    def set_password_character(self, character) -> None:
         """ Sets the entry box's password character. """
         self.__character = character
 
-    def SetPlaceholder(self, placeholder: str) -> None:
+    def set_placeholder(self, placeholder: str) -> None:
         """
         Sets the placeholder text for the TextBox.
         
@@ -615,11 +615,11 @@ class TextBox(Widget):
         """
         self.__placeholderChar = placeholder
     
-    def Clear(self) -> None:
+    def clear(self) -> None:
         """ Clears the text box's content. """
         self._id.delete(0, "end")
 
-    def __focusIn(self, event: callable) -> None:
+    def _focus_In(self, event: callable) -> None:
         """
         Event handler for when the TextBox gains focus.
         Clears the placeholder text if it is still present.
@@ -628,7 +628,7 @@ class TextBox(Widget):
             self._id.delete(0, tkinter.END)
             self._id.config(show=self.__character, foreground=self.__foregroundColor)
 
-    def __focusOut(self, event: callable) -> None:
+    def _focus_out(self, event: callable) -> None:
         """
         Event handler for when the TextBox loses focus.
         Restores the placeholder text if the TextBox is empty.
