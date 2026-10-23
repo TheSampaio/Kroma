@@ -40,6 +40,23 @@ class WindowLifecycleTests(unittest.TestCase):
         for name in ("Button", "ComboBox", "Label", "TextBox", "RichTextBox"):
             self.assertTrue(hasattr(kroma, name), name)
 
+    def test_textbox_applies_text_and_mask_on_creation(self):
+        entry = MagicMock()
+        with patch.object(kroma.ttk, "Entry", return_value=entry):
+            widget = kroma.TextBox()
+            widget.SetText("sample")
+            widget.SetPasswordCharacter("*")
+            widget.Create()
+        entry.insert.assert_called_with(0, "sample")
+        entry.configure.assert_called_with(show="*")
+
+    def test_combobox_omits_unset_selection(self):
+        combo = MagicMock()
+        with patch.object(kroma.ttk, "Combobox", return_value=combo):
+            widget = kroma.ComboBox()
+            widget.Create()
+        combo.set.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()

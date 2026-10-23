@@ -441,6 +441,8 @@ class Button(Widget):
     def SetText(self, text: str) -> None:
         """Sets the button's displayed text."""
         self.__text = text
+        if self._id is not None:
+            self._id.configure(text=text)
 
 
 class ComboBox(Widget):
@@ -460,7 +462,8 @@ class ComboBox(Widget):
         Creates the ComboBox widget and places it within the parent container.
         """
         self._id = ttk.Combobox(self._root, values=self.__values)
-        self._id.set(self.__selected_value)
+        if self.__selected_value is not None:
+            self._id.set(self.__selected_value)
         self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
 
     def SetValues(self, values: list) -> None:
@@ -478,6 +481,8 @@ class ComboBox(Widget):
         :param selected_value: The value to be selected by default.
         """
         self.__selected_value = selected_value
+        if self._id is not None:
+            self._id.set(selected_value)
 
     def GetSelectedValue(self) -> str:
         """
@@ -647,8 +652,12 @@ class TextBox(Widget):
         Creates the TextBox widget and places it within the parent container.
         """
         self._id = ttk.Entry(self._root, width=self._size[0], justify=self.__alignment)
+        if self.__character:
+            self._id.configure(show=self.__character)
 
-        if (self.__placeholderChar != ""):
+        if hasattr(self, "_TextBox__value"):
+            self._id.insert(0, self.__value)
+        elif self.__placeholderChar != "":
             self._id.insert(0, self.__placeholderChar)
             self._id.config(foreground=self.__placeholderColor)
 
@@ -679,10 +688,15 @@ class TextBox(Widget):
         :param text: The text to be displayed in the TextBox.
         """
         self.__value = text
+        if self._id is not None:
+            self._id.delete(0, tkinter.END)
+            self._id.insert(0, text)
 
     def SetPasswordCharacter(self, character) -> None:
         """ Sets the entry box's password character. """
         self.__character = character
+        if self._id is not None:
+            self._id.configure(show=character)
 
     def SetPlaceholder(self, placeholder: str) -> None:
         """
