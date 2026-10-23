@@ -1,0 +1,45 @@
+"""Tests that do not require a display server."""
+
+import importlib.util
+from pathlib import Path
+import unittest
+from unittest.mock import MagicMock, patch
+
+
+MODULE_PATH = Path(__file__).resolve().parents[1] / "Source" / "kroma.py"
+SPEC = importlib.util.spec_from_file_location("kroma_under_test", MODULE_PATH)
+kroma = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(kroma)
+
+
+class WindowLifecycleTests(unittest.TestCase):
+    def test_close_stops_loop_and_destroys_once(self):
+        root = MagicMock()
+        root.winfo_screenwidth.return_value = 1280
+        root.winfo_screenheight.return_value = 720
+        with patch.object(kroma.tkinter, "Tk", return_value=root):
+            window = kroma.Window()
+        root.iconbitmap.assert_not_called()
+        window.Close()
+        window.Close()
+        root.destroy.assert_called_once()
+        root.update.assert_not_called()
+
+    def test_child_destroy_does_not_close_root(self):
+        root = MagicMock()
+        root.winfo_screenwidth.return_value = 1280
+        root.winfo_screenheight.return_value = 720
+        with patch.object(kroma.tkinter, "Tk", return_value=root):
+            window = kroma.Window()
+        child_event = MagicMock(widget=object())
+        window.__proc__(child_event)
+        window.Close()
+        root.destroy.assert_called_once()
+
+    def test_public_widgets_remain_available(self):
+        for name in ("Button", "ComboBox", "Label", "TextBox", "RichTextBox"):
+            self.assertTrue(hasattr(kroma, name), name)
+
+
+if __name__ == "__main__":
+    unittest.main()

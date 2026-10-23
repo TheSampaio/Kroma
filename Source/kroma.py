@@ -237,7 +237,8 @@ class Window:
         self.__id.geometry(
             f"{self.__size[0]}x{self.__size[1]}+{int(self.__position[0])}+{int(self.__position[1])}"
         )
-        self.__id.iconbitmap(self.__icon)
+        if self.__icon:
+            self.__id.iconbitmap(self.__icon)
         self.__id.state(self.__state)
         self.__id.title(self.__title)
 
@@ -278,7 +279,9 @@ class Window:
 
     def Close(self) -> None:
         """Closes the window."""
-        self.__id.destroy()
+        if not self.__isClosed:
+            self.__isClosed = True
+            self.__id.destroy()
 
     def Run(self) -> None:
         """Runs the window's event loop and updates widgets."""
@@ -400,7 +403,8 @@ class Window:
 
     def __proc__(self, event) -> None:
         """Handles the window's close event."""
-        self.__isClosed = True
+        if event.widget is self.__id:
+            self.__isClosed = True
 
 
 class Button(Widget):
