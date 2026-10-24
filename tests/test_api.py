@@ -57,6 +57,13 @@ class WindowLifecycleTests(unittest.TestCase):
             widget.Create()
         combo.set.assert_not_called()
 
+    def test_snake_case_aliases_preserve_existing_calls(self):
+        button = kroma.Button()
+        button.set_text("Apply")
+        self.assertIs(kroma.Window.run, kroma.Window.Run)
+        self.assertIs(kroma.TextBox.get_text, kroma.TextBox.GetText)
+        self.assertTrue(callable(kroma.MessageBox.show_info))
+
 
 if __name__ == "__main__":
     unittest.main()

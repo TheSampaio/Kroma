@@ -727,3 +727,35 @@ class TextBox(Widget):
         if not self._id.get():
             self._id.config(show="", foreground=self.__placeholderColor)
             self._id.insert(0, self.__placeholderChar)
+
+
+# Additive Python-style names let applications migrate without breaking the
+# existing PascalCase API used by published examples.
+Window.run = Window.Run
+Window.close = Window.Close
+Window.add_widget = Window.AddWidget
+Window.add_window = Window.AddWindow
+Window.set_title = Window.SetTitle
+Window.set_size = Window.SetSize
+Window.set_resizable = Window.SetResizable
+Widget.set_position = Widget.SetPosition
+Widget.set_size = Widget.SetSize
+Widget.set_anchor = Widget.SetAnchor
+Button.create = Button.Create
+Button.set_text = Button.SetText
+Button.set_event = Button.SetEvent
+ComboBox.create = ComboBox.Create
+ComboBox.set_values = ComboBox.SetValues
+ComboBox.set_selected_value = ComboBox.SetSelectedValue
+ComboBox.get_selected_value = ComboBox.GetSelectedValue
+TextBox.create = TextBox.Create
+TextBox.get_text = TextBox.GetText
+TextBox.set_text = TextBox.SetText
+TextBox.set_password_character = TextBox.SetPasswordCharacter
+RichTextBox.create = RichTextBox.Create
+RichTextBox.get_text = RichTextBox.GetText
+RichTextBox.set_text = RichTextBox.SetText
+MessageBox.show_info = staticmethod(MessageBox.ShowInfo)
+MessageBox.show_warning = staticmethod(MessageBox.ShowWarning)
+MessageBox.show_error = staticmethod(MessageBox.ShowError)
+MessageBox.show_question = staticmethod(MessageBox.ShowQuestion)

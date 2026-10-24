@@ -17,7 +17,8 @@ the tags do not assert release quality. No remote references were deleted.
 
 The `main` implementation is the compatibility base because its README and
 examples use that API, and it restores multiline text. A future snake_case
-facade should be additive and tested before removing PascalCase names. The
+facade is additive in `develop`; PascalCase names remain available while callers
+migrate. Removing them would require a separately documented major release. The
 `AddWindow` behavior changed between branches, so its lifecycle needs focused
 tests. The `Test/` directory contains interactive examples, not automated
 tests. The package requires only Python's tkinter/ttk at runtime; Linux Python
