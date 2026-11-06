@@ -237,7 +237,8 @@ class Window:
         self.__id.geometry(
             f"{self.__size[0]}x{self.__size[1]}+{int(self.__position[0])}+{int(self.__position[1])}"
         )
-        self.__id.iconbitmap(self.__icon)
+        if self.__icon:
+            self.__id.iconbitmap(self.__icon)
         self.__id.state(self.__state)
         self.__id.title(self.__title)
 
@@ -278,7 +279,9 @@ class Window:
 
     def Close(self) -> None:
         """Closes the window."""
-        self.__id.destroy()
+        if not self.__isClosed:
+            self.__isClosed = True
+            self.__id.destroy()
 
     def Run(self) -> None:
         """Runs the window's event loop and updates widgets."""
@@ -400,7 +403,8 @@ class Window:
 
     def __proc__(self, event) -> None:
         """Handles the window's close event."""
-        self.__isClosed = True
+        if event.widget is self.__id:
+            self.__isClosed = True
 
 
 class Button(Widget):
@@ -437,6 +441,8 @@ class Button(Widget):
     def SetText(self, text: str) -> None:
         """Sets the button's displayed text."""
         self.__text = text
+        if self._id is not None:
+            self._id.configure(text=text)
 
 
 class ComboBox(Widget):
@@ -456,7 +462,8 @@ class ComboBox(Widget):
         Creates the ComboBox widget and places it within the parent container.
         """
         self._id = ttk.Combobox(self._root, values=self.__values)
-        self._id.set(self.__selected_value)
+        if self.__selected_value is not None:
+            self._id.set(self.__selected_value)
         self._id.place(anchor=self._anchor, x=self._position[0], y=self._position[1], relx=self._padding[0], rely=self._padding[1])
 
     def SetValues(self, values: list) -> None:
@@ -474,6 +481,8 @@ class ComboBox(Widget):
         :param selected_value: The value to be selected by default.
         """
         self.__selected_value = selected_value
+        if self._id is not None:
+            self._id.set(selected_value)
 
     def GetSelectedValue(self) -> str:
         """
@@ -643,8 +652,12 @@ class TextBox(Widget):
         Creates the TextBox widget and places it within the parent container.
         """
         self._id = ttk.Entry(self._root, width=self._size[0], justify=self.__alignment)
+        if self.__character:
+            self._id.configure(show=self.__character)
 
-        if (self.__placeholderChar != ""):
+        if hasattr(self, "_TextBox__value"):
+            self._id.insert(0, self.__value)
+        elif self.__placeholderChar != "":
             self._id.insert(0, self.__placeholderChar)
             self._id.config(foreground=self.__placeholderColor)
 
@@ -675,10 +688,15 @@ class TextBox(Widget):
         :param text: The text to be displayed in the TextBox.
         """
         self.__value = text
+        if self._id is not None:
+            self._id.delete(0, tkinter.END)
+            self._id.insert(0, text)
 
     def SetPasswordCharacter(self, character) -> None:
         """ Sets the entry box's password character. """
         self.__character = character
+        if self._id is not None:
+            self._id.configure(show=character)
 
     def SetPlaceholder(self, placeholder: str) -> None:
         """
@@ -709,3 +727,35 @@ class TextBox(Widget):
         if not self._id.get():
             self._id.config(show="", foreground=self.__placeholderColor)
             self._id.insert(0, self.__placeholderChar)
+
+
+# Additive Python-style names let applications migrate without breaking the
+# existing PascalCase API used by published examples.
+Window.run = Window.Run
+Window.close = Window.Close
+Window.add_widget = Window.AddWidget
+Window.add_window = Window.AddWindow
+Window.set_title = Window.SetTitle
+Window.set_size = Window.SetSize
+Window.set_resizable = Window.SetResizable
+Widget.set_position = Widget.SetPosition
+Widget.set_size = Widget.SetSize
+Widget.set_anchor = Widget.SetAnchor
+Button.create = Button.Create
+Button.set_text = Button.SetText
+Button.set_event = Button.SetEvent
+ComboBox.create = ComboBox.Create
+ComboBox.set_values = ComboBox.SetValues
+ComboBox.set_selected_value = ComboBox.SetSelectedValue
+ComboBox.get_selected_value = ComboBox.GetSelectedValue
+TextBox.create = TextBox.Create
+TextBox.get_text = TextBox.GetText
+TextBox.set_text = TextBox.SetText
+TextBox.set_password_character = TextBox.SetPasswordCharacter
+RichTextBox.create = RichTextBox.Create
+RichTextBox.get_text = RichTextBox.GetText
+RichTextBox.set_text = RichTextBox.SetText
+MessageBox.show_info = staticmethod(MessageBox.ShowInfo)
+MessageBox.show_warning = staticmethod(MessageBox.ShowWarning)
+MessageBox.show_error = staticmethod(MessageBox.ShowError)
+MessageBox.show_question = staticmethod(MessageBox.ShowQuestion)

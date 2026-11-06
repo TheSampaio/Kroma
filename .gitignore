@@ -2,6 +2,9 @@
 .vs/
 .vscode/
 __pycache__/
+.build/
+Build/lib/
+*.egg-info/
 _Output/
 
 # Files
